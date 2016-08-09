@@ -1,0 +1,151 @@
+$defaultColor: black;
+$textColor: white;
+$number-color: #ffffff;
+$positive: #40E63D;
+$negative: #C22137;
+$neutral-sentiment: #CA2F2B;
+$neutral: #ffffff;
+$nuvi: rgba(83, 198, 221, 1);
+$white-rgba: rgba(255, 255, 255, 1);
+$font: "sans-serif", Arial;
+
+
+@mixin text-blur {
+  color: transparent;
+  text-shadow: 0 0 0em $white-rgba;
+}
+
+@mixin flex_column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@mixin flex_row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.align_items_start {
+  align-items: flex-start;
+}
+
+.align_items_center {
+  align-items: center;
+}
+
+.align_items_end {
+  align-items: flex-end;
+}
+
+.align_content_bottom {
+  align-content: flex-end;
+  align-items: flex-end;
+}
+
+.flex_column_start {
+  @include flex_column;
+  justify-content: flex-start;
+}
+
+.flex_column_center {
+  @include flex_column;
+  justify-content: center;
+}
+
+.flex_column_end {
+  @include flex_column;
+  justify-content: flex-end;
+}
+
+.flex_row_start {
+  @include flex_row;
+  justify-content: flex-start;
+}
+
+.flex_row_center {
+  @include flex_row;
+  justify-content: center;
+}
+
+.flex_row_end {
+  @include flex_row;
+  justify-content: flex-end;
+}
+
+
+.mention_number {
+  color: $number-color;
+  @include text-blur;
+}
+
+.node {
+  fill: #ccc;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.link {
+  stroke: #777;
+  stroke-width: 2px;
+}
+
+
+.default_font {
+  font: $font;
+}
+
+.divider {
+
+  border-bottom: .01em solid #838088;
+
+}
+
+.bottom_box_shadow {
+  padding: .25em 0px .25em 0px;
+  margin: .25em 0px .25em 0px;
+  box-shadow: 0px -1px 0px 0px rgba(82,78,82,.5);
+}
+.border_box {
+  padding: .25em 0px .25em 0px;
+  margin: 0em 0px 0em 0px;
+  box-shadow: 0px -1px 0px 0px rgba(82,78,82,.5);
+}
+
+
+
+/*provider pie chart*/
+.label_provider_pie_chart {
+  color: #ffffff;
+}
+
+.mentions {
+  font: 15px "sans-serif", Arial;
+  color: #ffffff;
+}
+
+.change_cursor {
+  display: block;
+  cursor: pointer;
+}
+
+path {
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: $number-color;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+///////////////////////
+
+
+
+
