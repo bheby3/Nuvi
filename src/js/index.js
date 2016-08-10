@@ -337,6 +337,7 @@ require('../scss/base.scss');
     //     var avatar = document.getElementById('actor_avator');
     var start;
     if (d.activity_date.length === 18) start = d.activity_date.length -8;
+    else if(d.activity_date.length === 17) start = d.activity_date.length - 7;
     else start = d.activity_date.length - 9;
     
     document.getElementById('actor_avator').src = d.actor_avator;
