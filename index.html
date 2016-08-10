@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Nuvi DashBoard</title>
-
+    <title>NUVI</title>
     <script src="https://d3js.org/d3.v3.js"></script>
     <script src="https://use.fontawesome.com/545d4e3d6b.js"></script>
 </head>
+
+
 <body>
 
 <div id="wrapper" class="flex_column_center">
     <div id="overview_wrapper" class="flex_column_center">
         <section id="ui_header" class="flex_row_start align_items_center">
             <div id="header"><span id="title">NUVI</span></div>
-            <!--<div id="logout">Logout</div>-->
         </section>
-
         <div id="modal_overlay" class="hide_display"></div>
         <section id="overview">
-
             <section id="top_section_wrapper">
                 <div id="mentions_wrapper">
                     <div id="mentions_header">
@@ -58,52 +56,36 @@
                                 <div id="avg_mentions_day" class="mention_number"></div>
                             </div>
                         </div>
-
                         <div class="flex_row_center border_box">
                             <div>Mentions / Day</div>
                         </div>
-
                         <div class="flex_row_center mention_number">
-
                             <div id="days_in_period"></div>
                         </div>
                     </div>
                 </div>
 
                 <section id="mentions_timeline_graph" class="flex_column_start align_content_start">
-<div id="mentions_timeline_header"><span>Mentions Timeline</span></div>
-
+                    <div id="mentions_timeline_header"><span>Mentions Timeline</span></div>
                     <div id="mentions_timeline_chart" class="align_content_end">
-                        <!--<span>Mentions Timeline</span>-->
                     </div>
-
                 </section>
-                <!--<section id="mentions_timeline_graph">
-                    <div id="mentions_timeline_header">
-                        <span>Mentions / Provider</span>
-                    </div>
 
-                    <div id="sentiment_timeline_bod"></div>
-
-                </section>-->
             </section>
 
             <section id="middle_section_wrapper">
+
                 <section id="reach_spread_wrapper">
                     <div id="reach_spread_header">
                         <span>Mentions / Provider</span>
                     </div>
-
                     <div id="reach"></div>
-
                 </section>
 
                 <section id="sentiment_wrapper">
-
                     <div id="sentiment_header">
                         <span>Sentiment</span>
                     </div>
-
                     <div id="body_sentiment_wrapper" class="flex_row_center align_items_center">
                         <div class="flex_column_center align_items_center">
                             <span id="plus">+</span>
@@ -151,6 +133,7 @@
                         <p id="actor_description"></p>
                     </div>
                 </section>
+
                 <section id="modal_body">
                     <p id="activity_message"></p>
                     <div class="flex_row_start">
@@ -160,6 +143,7 @@
                         </div>
                     </div>
                 </section>
+
                 <section id="reply_modal" class="hide_display ">
                     <br>
                     <div>
@@ -168,7 +152,7 @@
                     </div>
                     <br>
                     <div class="flex_center_content flex_row_center">
-                        <textarea id="reply_input" type="text"></textarea>
+                        <textarea id="reply_input"></textarea>
                     </div>
                     <br>
                     <div class="flex_row_end">
@@ -177,66 +161,41 @@
                     </div>
                     <br>
                 </section>
+
                 <section id="modal_footer">
                     <div id="provider"></div>
                 </section>
+
             </section>
         </div>
-        <!--<div id="modal_overlay" class="hide_display"></div>-->
 
     </section>
 
-    <!--<div id="tl" class="flex_column_center">-->
-    <!--<div id="tlw">-->
     <section id="mentions_timeline_key">
         <br>
         <div class="mentions flex_row_center">
-            <!--<span>--><span id="xaxis">X Axis </span>:  # Activity Likes  ( increasing from left to right )</span>
+            <span id="xaxis">X Axis </span><span>: # Activity Likes ( increasing from left to right )</span>
         </div>
         <div class="mentions flex_row_center">
-            <span id="yaxis">Y Axis </span>:  Date of Mention  ( oldest on top, most recent on bottom )
+            <span id="yaxis">Y Axis </span><span>: Date of Mention ( oldest on top, most recent on bottom )</span>
         </div>
         <div class="mentions flex_row_center">
-            <!--<span>--><span id="radius">Radius </span>:  # of Activity Shares</span>
+            <span id="radius">Radius </span><span>: # of Activity Shares</span>
         </div>
         <div class="mentions flex_row_center">
-            <!--<span>--><span id="color">Color </span>: Sentiment</span>
+            <span id="color">Color </span><span>: Sentiment</span>
         </div>
-
         <div>
-
             <div id="mention_timeline"></div>
-
             <br><br><br>
         </div>
+
     </section>
 
-    <!--</div>-->
-    <!--</div>-->
-
-
-    <!--<div class="flex_row_center">
-        <h3 class="mentions"># Mentions / Provider</h3>
-    </div>-->
-
-    <!--<div id="provider_charts_wrapper" class="flex_row_center align_items_center">
-        <div id="provider_pie_chart"></div>
-        <div class="provider_bar_chart"></div>
-    </div>-->
-
-    <!--<div id="canvas"></div>-->
-
-    <!--<p>radius: #shares, cx: Date, cy: #likes, color: sentiment </p>-->
-    <!--Still learning D3 this one was tough to get right
-
-    -->
-
     <div id="individual_actor_chart"></div>
-
     <div id="tester"></div>
-    <!--<div id="sentiment_pie_chart"></div>-->
-
 </div>
+
 <script src="static/public/build/bundle.js"></script>
 
 </body>

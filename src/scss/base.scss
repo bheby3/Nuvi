@@ -8,7 +8,6 @@ html, body {
 
 #wrapper {
   width: 100%;
-
   #overview_wrapper {
     background-color: #1C1A1B;
     width: 100%;
@@ -16,10 +15,9 @@ html, body {
     font-family: $font;
 
     #ui_header {
-      //padding: .65em;
+
       margin-bottom: 1em;
       background-color: #212121;
-      //position: fixed;
       width: 100%;
       height: 5em;
       box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
@@ -27,10 +25,8 @@ html, body {
       #header {
 
         #title {
-          //padding: 0 1em 0 2em;
           padding-left: 2em;
           height: 100%;
-          //border-right: 1px solid #B2B2AE;
           color: #53C6DD;
           font-family: "sans-serif", Arial;
           font-size: 2em;
@@ -39,16 +35,12 @@ html, body {
           align-self: flex-end;
           font-family: "sans-serif", Arial;
           color: #B2B2AE;
-          //padding: .5em 1em 0 1em;
-          //border-right: 1px solid #B2B2AE;
           height: 2em;
-          //font-size: 2em;
         }
       }
     }
 
     #overview {
-      //padding-top: 4em;
       background-color: #1B1B1B;
       width: 100%;
       height: 100%;
@@ -68,7 +60,6 @@ html, body {
           margin: .5em .5em .5em 4em;
           box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
           color: #5D5E5A;
-
           #mentions_header {
             display: flex;
             align-items: center;
@@ -132,12 +123,12 @@ html, body {
           border-right: 1px solid #0A0909;
           border-bottom: 1px solid #1B1B1B;
           box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
-          width: 33.33%;
+          width: 34.33%;
           height: auto;
           margin: .5em .5em .5em 4em;
           background-color: #000000;
           #reach_spread_header {
-            box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
             border-top: 1px solid #2F2F2F;
             border-left: 1px solid #2F2F2F;
             border-bottom: 1px solid #2F2F2F;
@@ -241,7 +232,7 @@ html, body {
           margin: .5em 4em .5em .25em;
           background-color: #000000;
           #sentiment_timeline_header {
-            box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
             border-top: 1px solid #2F2F2F;
             border-right: 1px solid #2F2F2F;
             border-bottom: 1px solid #2F2F2F;
@@ -283,9 +274,7 @@ html, body {
 #modal_overlay {
   position: absolute;
   width: 100%;
-  //width: 100vh;
-  //height: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 9000;
 }
 
@@ -306,7 +295,7 @@ html, body {
     box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
 
     #modal_header {
-      border-radius: 7px 7px 0px 0px;
+      border-radius: 7px 7px 0 0;
       @include flex_row;
       align-items: center;
       background-color: #1B1A1D;
@@ -336,8 +325,8 @@ html, body {
     #modal_body {
       background-color: #242625;
       border-bottom: 1px solid #2E3031;
-      padding: 0px 1em 5px 1em;
-      box-shadow: 0px 7px 3px -1px rgba(0, 0, 0, 1);
+      padding: 0 1em 5px 1em;
+      box-shadow: 0 7px 3px -1px rgba(0, 0, 0, 1);
       color: #9596A1;
       #actor_url {
         color: #0D86BB;
@@ -387,7 +376,7 @@ html, body {
         font-family: "sans-serif", Arial;
         color: #ffffff;
         font-size: 15px;
-        padding: 0px 15px 0px 15px;
+        padding: 0 15px 0 15px;
         text-decoration: none;
         margin-right: 20px;
       }
@@ -397,14 +386,14 @@ html, body {
     }
 
     #modal_footer {
-      border-radius: 0px 0px 7px 7px;
+      border-radius: 0 0 7px 7px;
       border-top: 1px solid #343635;
       @include flex_row;
       align-content: center;
       background-color: #242625;
-      padding: 8px 0px 2px 0px;
+      padding: 8px 0 2px 0;
       #provider {
-        padding: 0px 5px 0px 5px;
+        padding: 0 5px 0 5px;
       }
     }
 
@@ -435,9 +424,6 @@ html, body {
   z-index: 1;
 }
 
-.provider_bar_chart {
-
-}
 
 #tl {
   width: 100%;
@@ -469,38 +455,33 @@ html, body {
 }
 
 #sentiment0 {
-  //color: $positive;
-
   color: #ffffff;
   text-shadow: -1px -1px 0 #000,
   1px -1px 0 #000,
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: $positive;
-  //box-shadow: inset 0 0 15px 5px rgba(64, 230, 61, .5);
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
 #sentiment1 {
-  //color: $negative;
   color: #ffffff;
   text-shadow: -1px -1px 0 #000,
   1px -1px 0 #000,
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background: $negative;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
 #sentiment2 {
-  //color: $neutral;
   color: #ffffff;
   text-shadow: -1px -1px 0 #000,
   1px -1px 0 #000,
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: $neutral;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
 #provider_charts_wrapper {
@@ -514,8 +495,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #3B5998;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
-
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
 #social_media1 {
@@ -525,7 +505,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #FD1D1D;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
 #social_media2 {
@@ -535,7 +515,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #35465C;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
 #social_media3 {
@@ -545,23 +525,8 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #1DA1F2;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
-
-path {
-  stroke: steelblue;
-  stroke-width: 2;
-  fill: none;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: grey;
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-
 
 #plus {
   font-size: 1.5em;

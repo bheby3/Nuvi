@@ -603,58 +603,7 @@ require('../scss/base.scss');
     }
     getTheData(data);
   }
-
-  /* geo map*/
-  /* function d3GeoMap() {
-
-   var data = JSONData.slice();
-
-   //Width and height
-   var w = 500;
-   var h = 300;
-
-   //Define map projection
-   var projection = d3.geo.albersUsa()
-   .translate([w / 2, h / 2])
-   .scale([500]);
-
-   //Define path generator
-   var path = d3.geo.path()
-   .projection(projection);
-
-   //Create SVG element
-   var svg = d3.select("body").append("svg").attr({width: w, height: h});
-
-   //Load in GeoJSON data
-   d3.json("./resources/us.json", function (json) {
-
-   //Bind data and create one path per GeoJSON feature
-   svg.selectAll("path")
-   .data(json.features)
-   .enter()
-   .append("path")
-   .attr("d", path)
-   .attr("fill", "#666666");
-
-   //Load in cities data
-   // d3.csv("./resources/sales-by-city.csv", function(data) {
-   /*svg.selectAll("circle")
-   .data(data)
-   .enter()
-   .append("circle")
-   .attr("cx", function(d) {
-   return d.activity_longitude;
-   })
-   .attr("cy", function(d) {
-   return d.activity_latitude;
-   })
-   .attr("r", function(d) {
-   return d.acitivity_likes;
-   })
-   .style("fill", "red");
-   */
-
-
+  
 })();
 
 

@@ -12,7 +12,7 @@ $font: "sans-serif", Arial;
 
 @mixin text-blur {
   color: transparent;
-  text-shadow: 0 0 0em $white-rgba;
+  text-shadow: 0 0 0 $white-rgba;
 }
 
 @mixin flex_column {
@@ -74,7 +74,6 @@ $font: "sans-serif", Arial;
   justify-content: flex-end;
 }
 
-
 .mention_number {
   color: $number-color;
   @include text-blur;
@@ -91,29 +90,24 @@ $font: "sans-serif", Arial;
   stroke-width: 2px;
 }
 
-
 .default_font {
   font: $font;
 }
 
 .divider {
-
   border-bottom: .01em solid #838088;
-
 }
 
 .bottom_box_shadow {
-  padding: .25em 0px .25em 0px;
-  margin: .25em 0px .25em 0px;
-  box-shadow: 0px -1px 0px 0px rgba(82,78,82,.5);
+  padding: .25em 0 .25em 0;
+  margin: .25em 0 .25em 0;
+  box-shadow: 0px -1px 0 0 rgba(82,78,82,.5);
 }
 .border_box {
-  padding: .25em 0px .25em 0px;
-  margin: 0em 0px 0em 0px;
-  box-shadow: 0px -1px 0px 0px rgba(82,78,82,.5);
+  padding: .25em 0 .25em 0;
+  margin: 0 0 0 0;
+  box-shadow: 0px -1px 0 0 rgba(82,78,82,.5);
 }
-
-
 
 /*provider pie chart*/
 .label_provider_pie_chart {
@@ -144,7 +138,6 @@ path {
   shape-rendering: crispEdges;
 }
 
-///////////////////////
 
 
 
