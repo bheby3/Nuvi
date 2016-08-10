@@ -29,7 +29,8 @@ require('../scss/base.scss');
 
   var hourCounter = [],
     mentionCounter,
-    hourMentionCombined = [];
+    hourMentionCombined = [],
+  dateParse;
 
   /*Get actors data from servers */
 
@@ -45,13 +46,13 @@ require('../scss/base.scss');
     createMentionsStats();
     hourMentionArrayGenerator();
 
-    console.log(datasetWithUpdatedDate);
   }).then(function () {
     displayIndividualActorsData();
     createProviderBarChart();
     generateSentimentBarChart();
     generateSentimentBarChart();
-    workitLG(hourMentionCombined);
+    generateHourlyMentionsLG(hourMentionCombined);
+    // workitLG(hourMentionCombined);
   });
 
   function makeArray(array, d) {
@@ -326,11 +327,18 @@ require('../scss/base.scss');
       }
     })(d);
 
+
+    // var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
+
     /*use promise to wait for the actor_avator pic to load before opening modal*/
 
     // let p1 = new Promise(
     //   function (resolve, reject) {
     //     var avatar = document.getElementById('actor_avator');
+    var start;
+    if (d.activity_date.length === 18) start = d.activity_date.length -8;
+    else start = d.activity_date.length - 9;
+    
     document.getElementById('actor_avator').src = d.actor_avator;
     document.getElementById('actor_name').innerHTML = d.actor_name;
     document.getElementById('actor_username').innerHTML = d.actor_username;
@@ -339,7 +347,7 @@ require('../scss/base.scss');
     document.getElementById('actor_url').src = d.actor_url;
     document.getElementById('actor_url').innerHTML = d.actor_url;
     document.getElementById('activity_message').innerHTML = d.activity_message;
-    document.getElementById('activity_date').innerHTML = d.activity_date;
+    document.getElementById('activity_date').innerHTML = d.activity_date.split('').slice(0,start).join('');
     document.getElementById('provider').className = "flex_row_start";
     // avatar.onload = function () {
     //   resolve();
@@ -403,7 +411,6 @@ require('../scss/base.scss');
     var x = d3.time.scale()
       .range([30, 280])
       .domain(d3.extent(data, setDateFn));
-
 
     var y = d3.scale.linear()
       .range([1380, 70])
@@ -530,7 +537,7 @@ require('../scss/base.scss');
   }
 
 
-  function workitLG(data) {
+  function generateHourlyMentionsLG(data) {
 
     // Set the dimensions of the canvas / graph
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
