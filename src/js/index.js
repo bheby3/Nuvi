@@ -52,7 +52,6 @@ var DashBoardManager = (function () {
       mentionCounter = mentionCounter.map((x) => 0);
       generateHourlyMentions(mentionCounter)
     }
-
     generateHourlyMentionTimes(datasetWithUpdatedDate);
 
 
@@ -123,12 +122,11 @@ var DashBoardManager = (function () {
     /*get mentions total by day*/
     dayCounterArray = totalDaysInDataset;
     dayCounterArray = dayCounterArray.map((x) => 0);
-
-
+    
     function makeHourObjArray(array, index, actor) {
       array[index].push(actor)
     }
-
+    
     for (let i = 0; i < dataset.length; i++) {
       let day = dataset[i].activity_date.toString();
       let actor = dataset[i];
@@ -371,7 +369,7 @@ var DashBoardManager = (function () {
       h = "50%",
       padding = 4;
 
-    d3.select("#mentions_wrapper").append("svg2")
+    d3.select("#mentions_wrapper").append("svg")
       .attr("width", w)
       .attr("height", h);
 
