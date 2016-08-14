@@ -1,59 +1,6 @@
 require('../scss/base.scss');
 
-(function () {
-
-  var JSONData = [],
-    socialMedia,
-    socialMedia2,
-    socialMediaStats = 0,
-    socialMediaSentiment,
-    totalActivityShares = 0,
-    dayCounterArray,
-    datasetWithUpdatedDate = [],
-    days = [[], [], []],
-    totalDaysInDataset = [],
-    mentionsPerHour = [];
-
-    var modalContent,
-    reply,
-    modalOverlay;
-
-  var facebook = 0,
-    instagram = 0,
-    tumblr = 0,
-    twitter = 0,
-
-    good = 0,
-    bad = 0,
-    neutral = 0;
-
-  var hourCounter = [],
-    mentionCounter,
-    hourMentionCombined = [],
-  dateParse;
-
-  /*Get actors data from servers */
-
-  fetch('https://nuvi-challenge.herokuapp.com/activities').then(function (response) {
-    return response.json()
-  }).then(function (returnedValue) {
-    JSONData = returnedValue;
-  }).then(function () {
-
-    mapActorsData(JSONData);
-    createProviderStats();
-    createHourForDate();
-    createMentionsStats();
-    hourMentionArrayGenerator();
-
-  }).then(function () {
-    displayIndividualActorsData();
-    createProviderBarChart();
-    generateSentimentBarChart();
-    generateSentimentBarChart();
-    generateHourlyMentionsLG(hourMentionCombined);
-    // workitLG(hourMentionCombined);
-  });
+var DashBoardManager = (function () {
 
   function makeArray(array, d) {
     array.push(d)
@@ -63,8 +10,8 @@ require('../scss/base.scss');
     array[index]++;
   }
 
-  function createHourForDate() {
-    let dataset = JSONData.slice();
+  function createHourForDate(data) {
+    let dataset = data;
     for (var i = 0; i < dataset.length; i++) {
       var hour = Math.random() * (24) | 0;
       var minutes = Math.random() * (60) | 0;
@@ -87,11 +34,11 @@ require('../scss/base.scss');
         makeArray(mentionsPerHour, hours)
       }
     }
+
     randomTimeGenerator(dataset);
   }
 
   function hourMentionArrayGenerator() {
-
     function generateHourlyMentionTimes() {
       var dataset = datasetWithUpdatedDate;
       for (let i = 0; i < dataset.length; i++) {
@@ -109,17 +56,13 @@ require('../scss/base.scss');
     generateHourlyMentionTimes(datasetWithUpdatedDate);
 
 
-    function makeMentionCounterArray(array, hour) {
-      array[hour]++
-    }
-
     function generateHourlyMentions(mentionCounter) {
       var dataset = datasetWithUpdatedDate;
       for (let i = 0; i < dataset.length; i++) {
         let day = dataset[i].timeHour.toString();
         if ((day) && (hourCounter.indexOf(day) !== -1)) {
           let hourToIncrement = parseInt(hourCounter.indexOf(day));
-          makeMentionCounterArray(mentionCounter, hourToIncrement);
+          incArray(mentionCounter, hourToIncrement);
         }
       }
       generateHourMentionObjArray()
@@ -140,9 +83,8 @@ require('../scss/base.scss');
   }
 
   /* map the data for use in charts*/
-  function mapActorsData() {
-
-    let dataset = JSONData.slice();
+  function mapActorsData(data) {
+    let dataset = data;
 
     for (let i = 0; i < dataset.length; i++) {
       switch (dataset[i].provider) {
@@ -177,7 +119,6 @@ require('../scss/base.scss');
       }
     }
     totalDaysInDataset = totalDaysInDataset.sort();
-
 
     /*get mentions total by day*/
     dayCounterArray = totalDaysInDataset;
@@ -235,7 +176,6 @@ require('../scss/base.scss');
       neutralPercentage,
       totalPercentage;
 
-
     let p1 = new Promise(function (resolve, reject) {
 
         positivePercentage = Math.round(100 * (good / total).toFixed(4));
@@ -250,28 +190,24 @@ require('../scss/base.scss');
       }
     );
 
-
     p1.then(function () {
-        document.getElementById('positive_sentiment_percentage').innerHTML = positivePercentage + "%";
-        document.getElementById('negative_sentiment_percentage').innerHTML = negativePercentage + "%";
-        document.getElementById('neutral_sentiment_percentage').innerHTML = neutralPercentage + "%";
+        positiveSentimentPercentage.innerHTML = positivePercentage + "%";
+        negativeSentimentPercentage.innerHTML = negativePercentage + "%";
+        neutralSentimentPercentage.innerHTML = neutralPercentage + "%";
       })
       .catch(function () {
         console.log('provider percentage error');
       })
   }
 
-  function createMentionsStats() {
-    var avgMentionsPerDay;
+  function createMentionsStats(data) {
+    var avgMentions;
 
-    document.getElementById('total_mentions_in_period').innerHTML = JSONData.length.toString();
-    document.getElementById('total_shared_mentions').innerHTML = totalActivityShares.toString();
-    document.getElementById('total_days').innerHTML = totalDaysInDataset.length.toString();
+    totalMentionsInPeriod.innerHTML = data.length.toString();
+    totalSharedMentions.innerHTML = totalActivityShares.toString();
+    totalDays.innerHTML = totalDaysInDataset.length.toString();
 
     function addDaysInDataset() {
-
-      var divToInsertOn = document.getElementById('days_in_period');
-
       for (let i = 0; i < totalDaysInDataset.length; i++) {
         let newDiv = document.createElement('div');
         let content = document.createTextNode(totalDaysInDataset[i] + `: ${dayCounterArray[i]}`);
@@ -281,19 +217,11 @@ require('../scss/base.scss');
     }
 
     addDaysInDataset();
-
-    avgMentionsPerDay = Math.round((JSONData.length / totalDaysInDataset.length)).toString();
-    document.getElementById('avg_mentions_day').innerHTML = avgMentionsPerDay;
+    avgMentions = Math.round((data.length / totalDaysInDataset.length)).toString();
+    avgMentionsPerDay.innerHTML = avgMentions;
   }
 
   function setModalFn(d) {
-
-    modalOverlay = document.getElementById('modal_overlay');
-    var modal = document.getElementById('modal');
-    var replyModalBody = document.getElementById('reply_modal');
-    var reply = document.getElementById('provider');
-
-    var cancelReply = document.getElementById('cancel_reply');
     modalOverlay.onclick = function () {
       modal.classList.toggle('visible');
       replyModalBody.classList.add('hide_display');
@@ -311,24 +239,21 @@ require('../scss/base.scss');
     (function (d) {
       switch (d.provider) {
         case "twitter":
-          document.getElementById('provider').innerHTML = "<i class=" + "'fa fa-twitter-square'></i> &nbsp;  <i class=" + "'fa fa-star change_cursor'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = "<i class=" + "'fa fa-twitter-square'></i> &nbsp;  <i class=" + "'fa fa-star change_cursor'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
           break;
         case "facebook":
-          document.getElementById('provider').innerHTML = "<i class=" + "'fa fa-facebook'></i> &nbsp; <i class=" + "'fa fa-star change_cursor'></i>  &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = "<i class=" + "'fa fa-facebook'></i> &nbsp; <i class=" + "'fa fa-star change_cursor'></i>  &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
           break;
         case "instagram":
-          document.getElementById('provider').innerHTML = "<i class=" + "'fa fa-instagram'></i>&nbsp;  <i class=" + "'fa fa-star change_cursor'></i>  &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = "<i class=" + "'fa fa-instagram'></i>&nbsp;  <i class=" + "'fa fa-star change_cursor'></i>  &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
           break;
         case "tumblr":
-          document.getElementById('provider').innerHTML = "<i class=" + "'fa fa-tumblr-square'></i> &nbsp; <i class=" + "'fa fa-star change_cursor'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = "<i class=" + "'fa fa-tumblr-square'></i> &nbsp; <i class=" + "'fa fa-star change_cursor'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
           break;
         default:
           break;
       }
     })(d);
-
-
-    // var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
 
     /*use promise to wait for the actor_avator pic to load before opening modal*/
 
@@ -336,20 +261,20 @@ require('../scss/base.scss');
     //   function (resolve, reject) {
     //     var avatar = document.getElementById('actor_avator');
     var start;
-    if (d.activity_date.length === 18) start = d.activity_date.length -8;
-    else if(d.activity_date.length === 17) start = d.activity_date.length - 7;
+    if (d.activity_date.length === 18) start = d.activity_date.length - 8;
+    else if (d.activity_date.length === 17) start = d.activity_date.length - 7;
     else start = d.activity_date.length - 9;
-    
-    document.getElementById('actor_avator').src = d.actor_avator;
-    document.getElementById('actor_name').innerHTML = d.actor_name;
-    document.getElementById('actor_username').innerHTML = d.actor_username;
-    document.getElementById('actor_description').innerHTML = d.actor_description;
-    document.getElementById('reply_username').innerHTML = d.actor_username;
-    document.getElementById('actor_url').src = d.actor_url;
-    document.getElementById('actor_url').innerHTML = d.actor_url;
-    document.getElementById('activity_message').innerHTML = d.activity_message;
-    document.getElementById('activity_date').innerHTML = d.activity_date.split('').slice(0,start).join('');
-    document.getElementById('provider').className = "flex_row_start";
+
+    actorAvator.src = d.actor_avator;
+    actorName.innerHTML = d.actor_name;
+    actorUserName.innerHTML = d.actor_username;
+    actorDescription.innerHTML = d.actor_description;
+    replyUserName.innerHTML = d.actor_username;
+    actorUrl.src = d.actor_url;
+    actorUrl.innerHTML = d.actor_url;
+    activityMessage.innerHTML = d.activity_message;
+    activityDate.innerHTML = d.activity_date.split('').slice(0, start).join('');
+    provider.className = "flex_row_start";
     // avatar.onload = function () {
     //   resolve();
     // }});
@@ -360,33 +285,25 @@ require('../scss/base.scss');
   }
 
   function toggleModalFn() {
-    modalOverlay = document.getElementById('modal_overlay');
-    reply = document.getElementById('provider');
-    modalContent = document.getElementById('modal');
     modalContent.classList.toggle('visible');
     modalOverlay.classList.toggle('hide_display');
   }
 
   function displayIndividualActorsData() {
-
     var data = datasetWithUpdatedDate;
-
     var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
-
     var myMouseoverFunction = function () {
       var circle = d3.select(this);
       circle.attr('stroke', function () {
         return "white";
       })
     };
-
     var handleMouseOut = function () {
       var circle = d3.select(this);
       circle.attr('stroke', function () {
         return "black";
       })
     };
-
     var setActivityLikesFn = function (d) {
       return d.activity_likes
     };
@@ -403,25 +320,20 @@ require('../scss/base.scss');
     var setIdFn = function (d) {
       return d.id
     };
-
     var setColorFn = function (d) {
       d = d.activity_sentiment == 0 ? "#1CC222" : d.activity_sentiment == 1 ? "#CA2F2B" : "#35465C";
       return d;
     };
-
     var x = d3.time.scale()
       .range([30, 280])
       .domain(d3.extent(data, setDateFn));
-
     var y = d3.scale.linear()
       .range([1380, 70])
       .domain(d3.extent(data, setActivityLikesFn));
-
     var svg = d3.select("#mention_timeline").append("svg:svg")
       .attr("width", "100%")
       .attr("height", 300)
       .style("background", "none");
-
     svg.selectAll("circle").data(data).enter()
       .append("svg:circle")
       .style("fill", function (d) {
@@ -455,11 +367,9 @@ require('../scss/base.scss');
   }
 
   function createProviderBarChart() {
-
-    var w = "100%";
-    var h = "50%";
-
-    var padding = 4;
+    var w = "100%",
+      h = "50%",
+      padding = 4;
 
     d3.select("#mentions_wrapper").append("svg2")
       .attr("width", w)
@@ -487,13 +397,12 @@ require('../scss/base.scss');
       });
   }
 
-
   function generateSentimentBarChart() {
-
-    var w = "100%";
-    var h = "50%";
-
-    var padding = 4,
+    console.log('generateSentimentBarChart');
+    var
+      w = "100%",
+      h = "50%",
+      padding = 4,
       social;
 
     social = socialMediaSentiment;
@@ -501,13 +410,6 @@ require('../scss/base.scss');
     var sentimentStats = social.map((x)=> {
       return x.number;
     });
-
-    function mouseovered() {
-      var bar = d3.select(this);
-      bar.attr("fill", function () {
-        return "white";
-      })
-    }
 
     d3.select("#test").append("svg2")
       .attr("width", w)
@@ -537,9 +439,9 @@ require('../scss/base.scss');
 
   }
 
-
-  function generateHourlyMentionsLG(data) {
-
+  function generateHourlyMentionsLineGraph() {
+    console.log('generateHourlyMentionsLineGraph');
+    var data = hourMentionCombined;
     // Set the dimensions of the canvas / graph
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
       width = 850 - margin.left - margin.right,
@@ -580,6 +482,7 @@ require('../scss/base.scss');
         "translate(" + margin.left + "," + margin.top + ")")
 
     function getTheData(data) {
+      console.log('getTheDataFn');
       data.map(function (d) {
         d.date = parseDate(d.date);
         d.close = +d.close;
@@ -609,10 +512,90 @@ require('../scss/base.scss');
         .attr("class", "y axis")
         .call(yAxis);
     }
+
     getTheData(data);
   }
-  
+
+  var
+    socialMedia,
+    socialMedia2,
+    socialMediaStats = 0,
+    socialMediaSentiment,
+    totalActivityShares = 0,
+    dayCounterArray,
+    datasetWithUpdatedDate = [],
+    days = [[], [], []],
+    totalDaysInDataset = [],
+    mentionsPerHour = [],
+    facebook = 0,
+    instagram = 0,
+    tumblr = 0,
+    twitter = 0,
+    good = 0,
+    bad = 0,
+    neutral = 0,
+    hourCounter = [],
+    mentionCounter,
+    hourMentionCombined = [],
+
+  //DOM refs
+    totalMentionsInPeriod = document.getElementById('total_mentions_in_period'),
+    totalSharedMentions = document.getElementById('total_shared_mentions'),
+    totalDays = document.getElementById('total_days'),
+    avgMentionsPerDay = document.getElementById('avg_mentions_day'),
+    divToInsertOn = document.getElementById('days_in_period'),
+    positiveSentimentPercentage = document.getElementById('positive_sentiment_percentage'),
+    negativeSentimentPercentage = document.getElementById('negative_sentiment_percentage'),
+    neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage'),
+
+  // modal elements
+    modalOverlay = document.getElementById('modal_overlay'),
+    modal = document.getElementById('modal'),
+    modalContent = document.getElementById('modal'),
+    replyModalBody = document.getElementById('reply_modal'),
+    reply = document.getElementById('provider'),
+    cancelReply = document.getElementById('cancel_reply'),
+    actorAvator = document.getElementById('actor_avator'),
+    actorName = document.getElementById('actor_name'),
+    actorUserName = document.getElementById('actor_username'),
+    actorDescription = document.getElementById('actor_description'),
+    replyUserName = document.getElementById('reply_username'),
+    actorUrl = document.getElementById('actor_url'),
+    activityMessage = document.getElementById('activity_message'),
+    activityDate = document.getElementById('activity_date'),
+    provider = document.getElementById('provider'),
+
+    publicApi = {
+      mapActorsData: mapActorsData,
+      createProviderStats: createProviderStats,
+      createHourForDate: createHourForDate,
+      createMentionsStats: createMentionsStats,
+      hourMentionArrayGenerator: hourMentionArrayGenerator,
+      displayIndividualActorsData: displayIndividualActorsData,
+      createProviderBarChart: createProviderBarChart,
+      generateSentimentBarChart: generateSentimentBarChart,
+      generateHourlyMentionsLineGraph: generateHourlyMentionsLineGraph
+    };
+
+  return publicApi;
+
 })();
+
+fetch('https://nuvi-challenge.herokuapp.com/activities')
+  .then(function (response) {
+    return response.json()
+  }).then(function (actorsData) {
+  DashBoardManager.mapActorsData(actorsData);
+  DashBoardManager.createProviderStats();
+  DashBoardManager.createHourForDate(actorsData);
+  DashBoardManager.createMentionsStats(actorsData);
+  DashBoardManager.hourMentionArrayGenerator();
+  DashBoardManager.displayIndividualActorsData();
+  DashBoardManager.createProviderBarChart();
+  DashBoardManager.generateSentimentBarChart();
+  DashBoardManager.generateHourlyMentionsLineGraph();
+});
+
 
 
 
