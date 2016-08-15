@@ -461,7 +461,7 @@ var DashBoardManager = (function () {
     var yAxis = d3.svg.axis().scale(y)
       .orient("left").ticks(5);
 
-// Define the line  TODO pass in date
+// Define the line
     var valueline = d3.svg.line()
       .x(function (d) {
         return x(d.date);
@@ -477,7 +477,7 @@ var DashBoardManager = (function () {
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")")
+        "translate(" + margin.left + "," + margin.top + ")");
 
     function getTheData(data) {
       console.log('getTheDataFn');
@@ -535,17 +535,6 @@ var DashBoardManager = (function () {
     hourCounter = [],
     mentionCounter,
     hourMentionCombined = [],
-
-  //DOM refs
-    totalMentionsInPeriod = document.getElementById('total_mentions_in_period'),
-    totalSharedMentions = document.getElementById('total_shared_mentions'),
-    totalDays = document.getElementById('total_days'),
-    avgMentionsPerDay = document.getElementById('avg_mentions_day'),
-    divToInsertOn = document.getElementById('days_in_period'),
-    positiveSentimentPercentage = document.getElementById('positive_sentiment_percentage'),
-    negativeSentimentPercentage = document.getElementById('negative_sentiment_percentage'),
-    neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage'),
-
   // modal elements
     modalOverlay = document.getElementById('modal_overlay'),
     modal = document.getElementById('modal'),
@@ -562,6 +551,17 @@ var DashBoardManager = (function () {
     activityMessage = document.getElementById('activity_message'),
     activityDate = document.getElementById('activity_date'),
     provider = document.getElementById('provider'),
+
+  //DOM refs
+    totalMentionsInPeriod = document.getElementById('total_mentions_in_period'),
+    totalSharedMentions = document.getElementById('total_shared_mentions'),
+    totalDays = document.getElementById('total_days'),
+    avgMentionsPerDay = document.getElementById('avg_mentions_day'),
+    divToInsertOn = document.getElementById('days_in_period'),
+    positiveSentimentPercentage = document.getElementById('positive_sentiment_percentage'),
+    negativeSentimentPercentage = document.getElementById('negative_sentiment_percentage'),
+    neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage'),
+
 
     publicApi = {
       mapActorsData: mapActorsData,

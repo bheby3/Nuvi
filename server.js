@@ -26,7 +26,6 @@ j.setCookie(cookie, url);
 request({url: url, jar: j}, function (error, response, body) {
   if (error) return error;
   else {
-    // console.log(response);
     fs.writeFile('request.txt', cookie + response.body, (err) => {
       if (err) throw err;
       console.log('It\'s saved!');
