@@ -1,5 +1,4 @@
-//TODO: 1) show actorGraph Menu by date from select menu
-//TODO: 2) make graphs and ui responsive
+//TODO: show actorGraph Menu by date from select menu, make ui responsive
 
 require('../scss/base.scss');
 
