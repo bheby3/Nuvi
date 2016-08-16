@@ -1,3 +1,6 @@
+//TODO: 1) show actorGraph Menu by date from select menu
+//TODO: 2) make graphs and ui responsive
+
 require('../scss/base.scss');
 
 var DashBoardManager = (function () {
@@ -438,7 +441,7 @@ var DashBoardManager = (function () {
     getTheData(data);
   }
 
-  function horizontalCirclePacking(day, element, i) {
+  function actorDayGraph(day, element, i) {
 
     var setDateFn = function (d) {
       return format.parse(d.activity_date)
@@ -662,9 +665,6 @@ var DashBoardManager = (function () {
   }
 
   function createActorGraph() {
-
-    //TODO: show actorGraph Menu by date from select menu
-
     for (let i = days.length - 1; i >= 0; i--) {
 
       // let actorSelectOption = document.createElement('option');
@@ -684,9 +684,8 @@ var DashBoardManager = (function () {
       outerContent.appendChild(content);
       actorGraph.appendChild(outerContent);
       actorGraph.appendChild(newDiv);
-      horizontalCirclePacking(days[i], newDiv, i)
+      actorDayGraph(days[i], newDiv, i)
     }
-
   }
 
   var
