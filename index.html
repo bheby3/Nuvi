@@ -4,6 +4,7 @@
     <title>NUVI</title>
     <script src="https://d3js.org/d3.v3.js"></script>
     <script src="https://use.fontawesome.com/545d4e3d6b.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 
 
@@ -173,7 +174,7 @@
 
     </section>
 
-    <section id="mentions_timeline_key">
+    <!--<section id="mentions_timeline_key">
         <br>
         <div class="mentions flex_row_center">
             <span id="xaxis">X Axis </span><span>: # Activity Likes ( increasing from left to right )</span>
@@ -192,13 +193,23 @@
             <br><br><br>
         </div>
 
-    </section>
+    </section>-->
+    <br><br>
+    <!--<div id="graph_overlay"></div>-->
+    <div class="flex_row_start date_padding">
+        <!--<div>select date:</div>-->
+        <!--<label for="actor_select_menu">Select Date</label>-->
+        <select name="actor_graph_days" id="actor_select_menu"></select>
+    </div>
+    <br><br>
+    <div class="flex_row_center">
+        <div id="actor_graph" class=""></div>
+    </div>
+    <!--<div id="actor_select_menu"></div>-->
+
+    <script src="static/public/build/bundle.js"></script>
 
 </div>
-
-
-<script src="static/public/build/bundle.js"></script>
-
 </body>
 </html>
 

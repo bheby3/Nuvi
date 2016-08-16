@@ -3,7 +3,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #242426;
+  background-color: #1B1B1B;
 }
 
 #wrapper {
@@ -274,15 +274,15 @@ html, body {
 #modal_overlay {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 200%;
   z-index: 9000;
 }
 
 #modal {
   border-radius: 25px;
-  position: absolute;
-  right: 3.85em;
-  top: 73%;
+  position: fixed;
+  right: 3.85%;
+  top: 40%;
   width: auto;
   z-index: 9999;
 
@@ -549,6 +549,22 @@ html, body {
   font-size: 1.1em;
 }
 
+
+#actor_select_menu {
+  width: 15em;
+  height: 2.5em;
+  border-radius: 0;
+  background: #313131;
+  color: white;
+  outline: none;
+}
+
+/*#graph_overlay {
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  z-index: 8000;
+}*/
 
 
 
