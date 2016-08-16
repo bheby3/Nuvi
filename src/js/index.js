@@ -289,165 +289,6 @@ var DashBoardManager = (function () {
     modalOverlay.classList.toggle('hide_display');
   }
 
-  function displayIndividualActorsData() {
-    var data = datasetWithUpdatedDate;
-    // console.log("data: ", data);
-    var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
-
-    var myMouseoverFunction = function () {
-      var circle = d3.select(this);
-      circle.attr('stroke', function () {
-        return "white";
-      })
-    };
-    var handleMouseOut = function () {
-      var circle = d3.select(this);
-      circle.attr('stroke', function () {
-        return "black";
-      })
-    };
-
-    var setActivityLikesFn = function (d) {
-      return d.activity_likes
-    };
-    var setDateFn = function (d) {
-      return format.parse(d.activity_date)
-    };
-    var setActivitySharesFn = function (d) {
-      if (d.activity_shares <= 4) {
-        return d.activity_shares + 5
-      } else {
-        return (d.activity_shares * .35 + 3)
-      }
-    };
-    var setIdFn = function (d) {
-      return d.id
-    };
-    var setColorFn = function (d) {
-      d = d.activity_sentiment == 0 ? "#1CC222" : d.activity_sentiment == 1 ? "#CA2F2B" : "#35465C";
-      return d;
-    };
-    var x = d3.time.scale()
-      .range([30, 280])
-      .domain(d3.extent(data, setDateFn));
-    var y = d3.scale.linear()
-      .range([1380, 70])
-      .domain(d3.extent(data, setActivityLikesFn));
-    var svg = d3.select("#mention_timeline").append("svg:svg")
-      .attr("width", "100%")
-      .attr("height", 300)
-      .style("background", "none");
-    svg.selectAll("circle").data(data).enter()
-      .append("svg:circle")
-      .style("fill", function (d) {
-        return setColorFn(d)
-      })
-      .attr("id", function (d) {
-        return setIdFn(d)
-      })
-      .attr("stroke", function () {
-        return "black"
-      })
-      .attr("stroke-width", function () {
-        return 1
-      })
-      .attr("r", function (d) {
-        return setActivitySharesFn(d)
-      })
-      .attr("cx", function (d) {
-        return y(setActivityLikesFn(d));
-      })
-      .attr("cy", function (d) {
-        return x(setDateFn(d))
-      })
-      .style("display", "block")
-      .style("cursor", "pointer")
-      .on("mouseover", myMouseoverFunction)
-      .on("mouseout", handleMouseOut)
-      .on("click", function (d) {
-        setModalFn(d);
-      })
-  }
-
-  /*function displayIndividualActorsData() {
-   var data = datasetWithUpdatedDate;
-   var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
-
-   var myMouseoverFunction = function () {
-   var circle = d3.select(this);
-   circle.attr('stroke', function () {
-   return "white";
-   })
-   };
-   var handleMouseOut = function () {
-   var circle = d3.select(this);
-   circle.attr('stroke', function () {
-   return "black";
-   })
-   };
-
-   var setActivityLikesFn = function (d) {
-   return d.activity_likes
-   };
-   var setDateFn = function (d) {
-   return format.parse(d.activity_date)
-   };
-   var setActivitySharesFn = function (d) {
-   if (d.activity_shares <= 4) {
-   return d.activity_shares + 5
-   } else {
-   return (d.activity_shares * .35 + 3)
-   }
-   };
-   var setIdFn = function (d) {
-   return d.id
-   };
-   var setColorFn = function (d) {
-   d = d.activity_sentiment == 0 ? "#1CC222" : d.activity_sentiment == 1 ? "#CA2F2B" : "#35465C";
-   return d;
-   };
-   var x = d3.time.scale()
-   .range([30, 280])
-   .domain(d3.extent(data, setDateFn));
-   var y = d3.scale.linear()
-   .range([1380, 70])
-   .domain(d3.extent(data, setActivityLikesFn));
-   var svg = d3.select("#mention_timeline").append("svg:svg")
-   .attr("width", "100%")
-   .attr("height", 300)
-   .style("background", "none");
-   svg.selectAll("circle").data(data).enter()
-   .append("svg:circle")
-   .style("fill", function (d) {
-   return setColorFn(d)
-   })
-   .attr("id", function (d) {
-   return setIdFn(d)
-   })
-   .attr("stroke", function () {
-   return "black"
-   })
-   .attr("stroke-width", function () {
-   return 1
-   })
-   .attr("r", function (d) {
-   return setActivitySharesFn(d)
-   })
-   .attr("cx", function (d) {
-   return y(setActivityLikesFn(d));
-   })
-   .attr("cy", function (d) {
-   return x(setDateFn(d))
-   })
-   .style("display", "block")
-   .style("cursor", "pointer")
-   .on("mouseover", myMouseoverFunction)
-   .on("mouseout", handleMouseOut)
-   .on("click", function (d) {
-   setModalFn(d);
-   })
-   }*/
-
   function createProviderBarChart() {
     var w = "100%",
       h = "50%",
@@ -480,18 +321,12 @@ var DashBoardManager = (function () {
   }
 
   function generateSentimentBarChart() {
-    console.log('generateSentimentBarChart');
     var
       w = "100%",
       h = "50%",
       padding = 4,
       social;
-    var myMouseoverFunction = function() {
-      var bar = d3.select(this);
-      bar.attr('stroke', function () {
-        return "white";
-      })
-    }
+
     social = socialMediaSentiment;
 
     var sentimentStats = social.map((x)=> {
@@ -501,7 +336,7 @@ var DashBoardManager = (function () {
     d3.select("#test").append("svg")
       .attr("width", w)
       .attr("height", h)
-      
+
 
     var x = d3.scale.linear()
       .domain([0, d3.max(sentimentStats)])
@@ -529,9 +364,8 @@ var DashBoardManager = (function () {
   }
 
   function generateHourlyMentionsLineGraph() {
-    console.log('generateHourlyMentionsLineGraph');
     var data = hourMentionCombined;
-    // Set the dimensions of the canvas / graph
+
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
       width = 850 - margin.left - margin.right,
       height = 170 - margin.top - margin.bottom;
@@ -540,19 +374,19 @@ var DashBoardManager = (function () {
 
     var parseDate = d3.time.format("%Y-%m-%d-%H").parse;
 
-// Set the ranges
+// ranges
 
     var x = d3.time.scale().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
 
-// Define the axes
+//axes
     var xAxis = d3.svg.axis().scale(x)
       .orient("bottom").ticks(15);
 
     var yAxis = d3.svg.axis().scale(y)
       .orient("left").ticks(5);
 
-// Define the line
+// line
     var valueline = d3.svg.line()
       .x(function (d) {
         return x(d.date);
@@ -561,7 +395,7 @@ var DashBoardManager = (function () {
         return y(d.close);
       });
 
-// Adds the svg canvas
+// Adds svg canvas
     var svg = d3.select("#mentions_timeline_chart")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -571,7 +405,6 @@ var DashBoardManager = (function () {
         "translate(" + margin.left + "," + margin.top + ")");
 
     function getTheData(data) {
-      console.log('getTheDataFn');
       data.map(function (d) {
         d.date = parseDate(d.date);
         d.close = +d.close;
@@ -585,18 +418,18 @@ var DashBoardManager = (function () {
         return d.close;
       })]);
 
-      // Add the valueline path.
+      // Add path.
       svg.append("path")
         .attr("class", "line")
         .attr("d", valueline(data));
 
-      // Add the X Axis
+      // Add X Axis
       svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
-      // Add the Y Axis
+      // Add Y Axis
       svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
@@ -607,32 +440,11 @@ var DashBoardManager = (function () {
 
   function horizontalCirclePacking(day, element, i) {
 
-
-    /*let newDiv = document.createElement('div');
-     let content = document.
-     function addActorGraph() {
-     for (let i = 0; i < days.length; i++) {
-     let newDiv = document.createElement('div');
-     let content = document.createTextNode(days[i] + `: ${dayCounterArray[i]}`);
-     actorGraph.appendChild(content);
-     divToInsertOn.appendChild(newDiv).className = "flex_row_center";
-     }
-     }
-
-     console.log("days", days);
-     */
     var setDateFn = function (d) {
       return format.parse(d.activity_date)
     };
-    var myMouseoverFunction = function () {
+    var mouseoverFunction = function () {
       var circle = d3.select(this);
-      circle.attr('stroke', function () {
-        return "white";
-      })
-    };
-    var mouseoverFunction = function (d) {
-      console.log(this);
-      var circle = d3.select(`#${d.id}`);
       circle.attr('stroke', function () {
         return "white";
       })
@@ -650,7 +462,7 @@ var DashBoardManager = (function () {
         return (d.idealradius * .33)
       }
     };
-    var setSentimentText = function(d) {
+    var setSentimentText = function (d) {
       if (d.modalData.activity_sentiment === 1) {
         return "+"
       } else if (d.modalData.activity_sentiment === -1) {
@@ -658,66 +470,35 @@ var DashBoardManager = (function () {
       }
     };
 
-    // var data = datasetWithUpdatedDate;
     var data = day;
 
     var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
 
-    // console.log('actorsDividedByDate: ', actorsDividedByDay);
-
     var margin = {top: 0, right: 0, bottom: 20, left: 0},
       width = 1290 - margin.left - margin.right,
       height = 275 - margin.top - margin.bottom,
-    // padding between nodes
-      padding = .5,
+      padding = 0,
       maxRadius = 100;
-
-    // {value: d.activity_date, size: d.activity_shares}
-    // console.log('data: ', data);
-    // Create random node data.
-    /*var data = d3.range(numberOfNodes).map(function () {
-     var value = Math.floor(Math.random() * 50) / 10,
-     size = Math.floor(Math.sqrt((value + 1) / numberOfNodes * -Math.log(Math.random())) * maxRadius * 10),
-     datum = {value: value, size: size};
-     return datum;
-     });*/
 
     var x = d3.time.scale()
       .range([60, 1200])
       .domain(d3.extent(data, setDateFn));
 
-    /* var x = d3.scale.linear()
-     .domain([0, 5])
-     .range([margin.left, width + margin.right]);
-     */
-
-    // Map the basic node data to d3-friendly format.
+    // Map node data to d3 format.
     var nodes = data.map(function (node, index) {
       return {
-        // idealradius: node.size / 100,
         idealradius: node.activity_shares,
         radius: 0,
-        /*radius: (function () {
-         var d = node;
-         if (d.activity_shares <= 4) {
-         return d.activity_shares + 5
-         } else {
-         return d
-         }
-         }),*/
         modalData: node,
-        // Give each node a random color.
         color: (function () {
           var d = node.activity_sentiment == 0 ? "#0F4651" : node.activity_sentiment == 1 ? "#1CC222" : "#CA2F2B";
-          // var d = node.activity_sentiment == 0 ? "#1CC222" : node.activity_sentiment == 1 ? "#CA2F2B" : "#35465C";
           return d;
         }()),
         // Set the node's gravitational centerpoint.
         idealcx: x(setDateFn(node)),
         idealcy: height / 2,
         x: x(setDateFn(node)),
-        // Add some randomization to the placement;
-        // nodes stacked on the same point can produce NaN errors.
+        // Add some randomization to the placement else NaN
         y: height / 3 + Math.random()
       };
     });
@@ -733,25 +514,14 @@ var DashBoardManager = (function () {
     var xAxis = d3.svg.axis().scale(x)
       .orient("bottom").ticks(14);
 
-    /*
-     var xAxis = d3.svg.axis()
-     .scale(x);
-     */
-
-    // var svg = d3.select("body").append("svg")
-    // var svg = d3.select("#mentions_by_day1").append("svg")
     var svg = d3.select(`#actorGraph${i}`).append("svg")
-    // var svg = d3.select(`#actor_graph`).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      // .style("padding-left", "10em")
-      // .style('border', "1px solid black")
       .style('background-color', "black")
       .style('border-bottom', '1px solid #1B1B1B')
       .style('margin-bottom', '28px')
       .style('padding-bottom', '8px')
       .style('box-shadow', '0 8px 12px 5px rgba(0, 0, 0, 1)');
-    
 
     var loading = svg.append("text")
       .attr("x", ( width + margin.left + margin.right ) / 2)
@@ -766,13 +536,6 @@ var DashBoardManager = (function () {
     function tick(e) {
       for (let i = 0; i < nodes.length; i++) {
         var node = nodes[i];
-        /*
-         * Animate the radius via the tick.
-         *
-         * Typically this would be performed as a transition on the SVG element itself,
-         * but since this is a static force layout, we must perform it on the node.
-         */
-        // node.radius = node.idealradius - node.idealradius * e.alpha * 10;
         node.radius = setActivitySharesFn(node)
         node = gravity(.1 * e.alpha)(node);
         node = collide(.5)(node);
@@ -830,9 +593,6 @@ var DashBoardManager = (function () {
      * then replace the loading text with the graph.
      */
     function renderGraph() {
-      // Run the layout a fixed number of times.
-      // The ideal number of times scales with graph complexity.
-      // Of course, don't run too long—you'll hang the page!
       force.start();
       for (var i = 50; i > 0; --i) force.tick();
       force.stop();
@@ -860,35 +620,25 @@ var DashBoardManager = (function () {
         .attr("stroke-width", function () {
           return 1
         })
-        /*.attr("r", function (d) {
-         return d.radius
-         })*/
         .attr("r", function (d) {
           return setActivitySharesFn(d)
         })
         .style("display", "block")
         .style("cursor", "pointer")
-        .on("mouseover", myMouseoverFunction)
+        .on("mouseover", mouseoverFunction)
         .on("mouseout", handleMouseOut)
         .on("click", function (d) {
           setModalFn(d.modalData);
         });
-        /*.append('text')
-        .attr("text-anchor", "middle")
-        
-        .text(function(d) {
-          console.log(d);
-          return '+';
-          // return d.name;
-        });*/
+
       var text = svg.append("svg:g").selectAll("g")
         .data(force.nodes())
         .enter().append("svg:g");
 
       text.append("svg:text")
         .attr("text-anchor", "middle")
-        .text(function(d) {
-           return setSentimentText(d)
+        .text(function (d) {
+          return setSentimentText(d)
         })
         .style('fill', '#F8F8F8')
         .style('stroke', 'black')
@@ -899,8 +649,7 @@ var DashBoardManager = (function () {
           setModalFn(d.modalData);
         });
 
-      text.attr("transform",  function(d) {
-        // console.log(d);
+      text.attr("transform", function (d) {
         d.y = d.y + (d.y * .02);
         return "translate(" + d.x + "," + d.y + ")";
       });
@@ -909,26 +658,25 @@ var DashBoardManager = (function () {
       loading.remove();
     }
 
-    // Use a timeout to allow the rest of the page to load first.
-    setTimeout(renderGraph, 2);
+    setTimeout(renderGraph, 3);
   }
 
   function createActorGraph() {
-//click option - toggle display for actorGraph[i]
-//     for (let i = 0; i < days.length; i++) {
-    for (let i = days.length -1; i >= 0; i--) {
 
-      let actorSelectOption = document.createElement('option');
-      actorSelectOption.innerHTML = `${totalDaysInDataset[i]}`;
-      actorSelectMenu.appendChild(actorSelectOption);
+    //TODO: show actorGraph Menu by date from select menu
 
+    for (let i = days.length - 1; i >= 0; i--) {
+
+      // let actorSelectOption = document.createElement('option');
+      // actorSelectOption.innerHTML = `${totalDaysInDataset[i]}`;
+      // actorSelectMenu.appendChild(actorSelectOption);
       let newDiv = document.createElement(`div`);
       newDiv.classList.add('flex_row_center');
       newDiv.id = `actorGraph${i}`;
       let outerContent = document.createElement('div');
       outerContent.classList.add('outer_mentions_timeline_header');
       let content = document.createElement('div');
-      content.innerHTML =  `${totalDaysInDataset[i]}`;
+      content.innerHTML = `${totalDaysInDataset[i]}`;
       content.classList.add('mentions')
       content.classList.add('mentions_timeline_header');
       // content.classList.add('date_padding')
@@ -989,9 +737,8 @@ var DashBoardManager = (function () {
     positiveSentimentPercentage = document.getElementById('positive_sentiment_percentage'),
     negativeSentimentPercentage = document.getElementById('negative_sentiment_percentage'),
     neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage'),
-    actorSelectMenu = document.getElementById('actor_select_menu'),
+  // actorSelectMenu = document.getElementById('actor_select_menu'),
     actorGraph = document.getElementById('actor_graph'),
-
 
     publicApi = {
       mapActorsData: mapActorsData,
@@ -999,11 +746,9 @@ var DashBoardManager = (function () {
       createHourForDate: createHourForDate,
       createMentionsStats: createMentionsStats,
       hourMentionArrayGenerator: hourMentionArrayGenerator,
-      displayIndividualActorsData: displayIndividualActorsData,
       createProviderBarChart: createProviderBarChart,
       generateSentimentBarChart: generateSentimentBarChart,
       generateHourlyMentionsLineGraph: generateHourlyMentionsLineGraph,
-      // horizontalCirclePacking: horizontalCirclePacking,
       createActorGraph: createActorGraph,
     };
 
@@ -1020,11 +765,9 @@ fetch('https://nuvi-challenge.herokuapp.com/activities')
   DashBoardManager.createHourForDate(actorsData);
   DashBoardManager.createMentionsStats(actorsData);
   DashBoardManager.hourMentionArrayGenerator();
-  DashBoardManager.displayIndividualActorsData();
   DashBoardManager.createProviderBarChart();
   DashBoardManager.generateSentimentBarChart();
   DashBoardManager.generateHourlyMentionsLineGraph();
-  // DashBoardManager.horizontalCirclePacking();
   DashBoardManager.createActorGraph();
 });
 
