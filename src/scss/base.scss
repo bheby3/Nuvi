@@ -15,7 +15,6 @@ html, body {
     font-family: $font;
 
     #ui_header {
-
       margin-bottom: 1em;
       background-color: #212121;
       width: 100%;
@@ -23,13 +22,12 @@ html, body {
       box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
 
       #header {
-
         #title {
-          padding-left: 2em;
+          padding-left: 1.7em;
           height: 100%;
           color: #53C6DD;
           font-family: "sans-serif", Arial;
-          font-size: 2em;
+          font-size: 2.7em;
         }
         #logout {
           align-self: flex-end;
@@ -128,7 +126,7 @@ html, body {
           margin: .5em .5em .5em 4em;
           background-color: #000000;
           #reach_spread_header {
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
             border-top: 1px solid #2F2F2F;
             border-left: 1px solid #2F2F2F;
             border-bottom: 1px solid #2F2F2F;
@@ -162,7 +160,7 @@ html, body {
           margin: .5em .5em .5em .5em;
           background-color: #000000;
           #sentiment_header {
-            box-shadow: inset 0px -1px 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0px -1px 10px rgba(0, 0, 0, 0.8);
             border-top: 1px solid #2F2F2F;
             display: flex;
             height: 25%;
@@ -232,7 +230,7 @@ html, body {
           margin: .5em 4em .5em .25em;
           background-color: #000000;
           #sentiment_timeline_header {
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
             border-top: 1px solid #2F2F2F;
             border-right: 1px solid #2F2F2F;
             border-bottom: 1px solid #2F2F2F;
@@ -248,11 +246,6 @@ html, body {
             span {
               padding-left: 1em;
             }
-          }
-          #sentiment_timeline_body {
-            width: 100%;
-            height: 75%;
-            background-color: #2F2F2F;
           }
         }
       }
@@ -274,15 +267,15 @@ html, body {
 #modal_overlay {
   position: absolute;
   width: 100%;
-  height: 350%;
+  height: 160%;
   z-index: 9000;
 }
 
 #modal {
   border-radius: 25px;
   position: fixed;
-  right: 5.3%;
-  top: 25%;
+  right: 7%;
+  top: 32.5%;
   width: auto;
   z-index: 9999;
 
@@ -351,7 +344,7 @@ html, body {
         height: 4em;
         padding: 15px 0 10px 0;
         text-decoration: none;
-        outline: none;
+        outline: grey;
         resize: none;
         overflow: auto;
       }
@@ -365,6 +358,7 @@ html, body {
         padding: 10px 15px 10px 15px;
         text-decoration: none;
         margin-right: 10px;
+        outline: none;
       }
       #cancel_reply:hover {
         text-decoration: none;
@@ -379,6 +373,7 @@ html, body {
         padding: 0 15px 0 15px;
         text-decoration: none;
         margin-right: 20px;
+        outline: none;
       }
       #send_reply:hover {
         text-decoration: none;
@@ -424,7 +419,6 @@ html, body {
   z-index: 1;
 }
 
-
 #tl {
   width: 100%;
   border: 1px solid black;
@@ -461,7 +455,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: $positive;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #sentiment1 {
@@ -471,7 +465,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background: $negative;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #sentiment2 {
@@ -481,7 +475,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: $neutral;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #provider_charts_wrapper {
@@ -495,7 +489,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #3B5998;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #social_media1 {
@@ -505,7 +499,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #FD1D1D;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #social_media2 {
@@ -515,7 +509,7 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #35465C;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #social_media3 {
@@ -525,12 +519,13 @@ html, body {
   -1px 1px 0 #000,
   1px 1px 0 #000;
   background-color: #1DA1F2;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #plus {
   font-size: 1.5em;
 }
+
 #positive_sentiment {
   font-size: 1.1em;
 }
@@ -539,12 +534,15 @@ html, body {
   width: .5em;
   font-size: 1.5em;
 }
+
 #negative_sentiment {
   font-size: 1.1em;
 }
+
 #neutral_space {
   padding-top: .5em;
 }
+
 #neutral_sentiment {
   font-size: 1.1em;
 }
@@ -558,11 +556,120 @@ html, body {
   outline: none;
 }
 
+#header_date {
+  display: none;
+}
+
+#date_container {
+  position: absolute;
+  bottom: 22.1%;
+  right: 36%;
+  z-index: 10;
+}
+
+#date_select {
+  color: white;
+  background: #313131;
+  width: 15em;
+  font-size: 1em;
+  border-radius: 4px;
+  font-family: "sans-serif", Arial;
+}
+
+#actor_graph_header {
+  display: none;
+  position: absolute;
+  bottom: 21.1%;
+  box-shadow: inset 0px -1px 10px rgba(0, 0, 0, 0.8);
+  border: 1px solid #2F2F2F;
+  height: 3.2em;
+  background-color: #313131;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1286px;
+  color: #ffffff;
+  font-family: "sans-serif", Arial;
+  font-size: .85em;
+  span {
+    padding-left: 1em;
+  }
+}
+
+#view_mentions {
+  position: absolute;
+  display: none;
+  color: white;
+  z-index: 10;
+  bottom: 23.5%;
+  font-family: "sans-serif", Arial;
+  font-size: .85em;
+}
+
+#loading {
+  position: absolute;
+  z-index: 9999;
+  top: 49%;
+  right: 42%;
+  color: white;
+}
 
 
 
+.select {
+  position: relative;
+  display: inline-block;
+}
 
+.select select {
+  outline: none;
+  -webkit-appearance: none;
+  display: block;
+  padding: .7em .5em .6em 4.4em;
+  margin: 0;
+  transition: border-color 0.2s;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+  border: 1px solid #313131;
+  border-radius: 5px;
+  background: #313131;;
+  color: #555;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
 
+.select .arr {
+  background: #313131;;
+  bottom: 5px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 50px;
+  pointer-events: none;
+}
+
+.select .arr:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  margin-top: -5px;
+  pointer-events: none;
+  border-top: 10px solid #686A6C;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+
+.select .arr:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  margin-top: -5px;
+  pointer-events: none;
+  border-top: 6px solid #686A6C;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
 
 
 

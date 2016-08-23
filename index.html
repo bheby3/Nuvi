@@ -2,174 +2,188 @@
 <html>
 <head>
     <title>NUVI</title>
-    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://use.fontawesome.com/545d4e3d6b.js"></script>
 </head>
-
-
 <body>
 
 <div id="wrapper" class="flex_column_center">
-
     <div id="overview_wrapper" class="flex_column_center">
         <div id="modal_overlay" class="hide_display"></div>
         <section id="ui_header" class="flex_row_start align_items_center">
             <div id="header"><span id="title">NUVI</span></div>
         </section>
-        <section id="overview">
-            <section id="top_section_wrapper">
-                <div id="mentions_wrapper">
-                    <div id="mentions_header">
-                        <div class="flex_row_start align_items_center">
-                            <div id="total_mentions_in_period"></div>
-                            <div class="flex_column_start">
-                                <div>Mentions</div>
-                                <div>In This Period</div>
+        <div class="spin_container">
+            <i id="spin" class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+        </div>
+        <div id="loading">Simulating. One moment please…</div>
+
+        <div class="load_content">
+            <section id="overview">
+                <section id="top_section_wrapper">
+                    <div id="mentions_wrapper">
+                        <div id="mentions_header">
+                            <div class="flex_row_start align_items_center">
+                                <div id="total_mentions_in_period"></div>
+                                <div class="flex_column_start">
+                                    <div>Mentions</div>
+                                    <div>In This Period</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mentions_body_wrapper">
+                            <div class="flex_row_center align_items_center">
+                                <div class="flex_row_start">
+                                    <div id="shared_mentions"> Shared Mentions</div>
+                                </div>
+                                <div class="flex_row_end mention_number">
+                                    <div id="total_shared_mentions"></div>
+                                </div>
+                            </div>
+                            <div class="flex_row_center align_items_center bottom_box_shadow">
+                                <div class="flex_row_start">
+                                    <div> Days In Period:</div>
+                                </div>
+                                <div class="flex_row_end mention_number">
+                                    <div id="total_days"></div>
+                                </div>
+                            </div>
+                            <div class="flex_row_center align_items_center border_box">
+                                <div class="flex_row_start">
+                                    <div>Avg. Mentions / Day:</div>
+                                </div>
+
+                                <div class="flex_row_end">
+                                    <div id="avg_mentions_day" class="mention_number"></div>
+                                </div>
+                            </div>
+                            <div class="flex_row_center border_box">
+                                <div>Mentions / Day</div>
+                            </div>
+                            <div class="flex_row_center mention_number">
+                                <div id="days_in_period"></div>
                             </div>
                         </div>
                     </div>
-                    <div id="mentions_body_wrapper">
-                        <div class="flex_row_center align_items_center">
-                            <div class="flex_row_start">
-                                <div id="shared_mentions"> Shared Mentions</div>
+                    <section id="mentions_timeline_graph" class="flex_column_start align_content_start">
+                        <div id="mentions_timeline_header"><span>Mentions Timeline</span></div>
+                        <div id="mentions_timeline_chart" class="align_content_end">
+                        </div>
+                    </section>
+                </section>
+                <section id="middle_section_wrapper">
+
+                    <section id="reach_spread_wrapper">
+                        <div id="reach_spread_header">
+                            <span>Mentions / Provider</span>
+                        </div>
+                        <div id="reach"></div>
+                    </section>
+
+                    <section id="sentiment_wrapper">
+                        <div id="sentiment_header">
+                            <span>Sentiment</span>
+                        </div>
+                        <div id="body_sentiment_wrapper" class="flex_row_center align_items_center">
+                            <div class="flex_column_center align_items_center">
+                                <span id="plus">+</span>
+                                <span id="positive_sentiment_percentage" class="flex_row_center"></span>
+                                <span id="positive_sentiment">Positive</span>
                             </div>
-                            <div class="flex_row_end mention_number">
-                                <div id="total_shared_mentions"></div>
+                            <div id="negative_borders" class="flex_column_center align_items_center">
+                                <span id="minus">-</span>
+                                <span id="negative_sentiment_percentage" class="flex_row_center"></span>
+                                <span id="negative_sentiment">Negative</span>
+                            </div>
+                            <div class="flex_column_center align_items_center">
+                                <span id="neutral_space">&nbsp;</span>
+                                <span id="neutral_sentiment_percentage" class="flex_row_center"></span>
+                                <span id="neutral_sentiment">Neutral</span>
                             </div>
                         </div>
-                        <div class="flex_row_center align_items_center bottom_box_shadow">
-                            <div class="flex_row_start">
-                                <div> Days In Period:</div>
-                            </div>
-                            <div class="flex_row_end mention_number">
-                                <div id="total_days"></div>
-                            </div>
+                    </section>
+
+                    <section id="sentiment_timeline_graph">
+                        <div id="sentiment_timeline_header">
+                            <span>Mentions / Sentiment</span>
                         </div>
-                        <div class="flex_row_center align_items_center border_box">
-                            <div class="flex_row_start">
-                                <div>Avg. Mentions / Day:</div>
-                            </div>
-
-                            <div class="flex_row_end">
-                                <div id="avg_mentions_day" class="mention_number"></div>
-                            </div>
-                        </div>
-                        <div class="flex_row_center border_box">
-                            <div>Mentions / Day</div>
-                        </div>
-                        <div class="flex_row_center mention_number">
-                            <div id="days_in_period"></div>
-                        </div>
-                    </div>
-                </div>
-                <section id="mentions_timeline_graph" class="flex_column_start align_content_start">
-                    <div id="mentions_timeline_header"><span>Mentions Timeline</span></div>
-                    <div id="mentions_timeline_chart" class="align_content_end">
-                    </div>
+                        <br>
+                        <div id="sentiment_timeline_body"></div>
+                    </section>
                 </section>
-            </section>
-            <section id="middle_section_wrapper">
-
-                <section id="reach_spread_wrapper">
-                    <div id="reach_spread_header">
-                        <span>Mentions / Provider</span>
-                    </div>
-                    <div id="reach"></div>
-                </section>
-
-                <section id="sentiment_wrapper">
-                    <div id="sentiment_header">
-                        <span>Sentiment</span>
-                    </div>
-                    <div id="body_sentiment_wrapper" class="flex_row_center align_items_center">
-                        <div class="flex_column_center align_items_center">
-                            <span id="plus">+</span>
-                            <span id="positive_sentiment_percentage" class="flex_row_center"></span>
-                            <span id="positive_sentiment">Positive</span>
-                        </div>
-                        <div id="negative_borders" class="flex_column_center align_items_center">
-                            <span id="minus">-</span>
-                            <span id="negative_sentiment_percentage" class="flex_row_center"></span>
-                            <span id="negative_sentiment">Negative</span>
-                        </div>
-                        <div class="flex_column_center align_items_center">
-                            <span id="neutral_space">&nbsp;</span>
-                            <span id="neutral_sentiment_percentage" class="flex_row_center"></span>
-                            <span id="neutral_sentiment">Neutral</span>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="sentiment_timeline_graph">
-                    <div id="sentiment_timeline_header">
-                        <span>Mentions / Sentiment</span>
-                    </div>
-                    <br>
-                    <div id="sentiment_timeline_bod"></div>
-                </section>
-            </section>
-        </section>
-    </div>
-
-    <section id="response_timeline">
-        <div id="modal" class="flex_column_end visible">
-            <section class="modal_actor_container">
-                <section id="modal_header" class="flex_row_start">
-                    <img id="actor_avator" src="" alt=""/>
-                    <div>
-                        <p id="actor_name"></p>
-                        <p id="actor_username"></p>
-                    </div>
-
-                    <div class="flex_row_center reach">
-                        <p id="actor_description"></p>
-                    </div>
-                </section>
-
-                <section id="modal_body">
-                    <p id="activity_message"></p>
-                    <div class="flex_row_start">
-                        <a id="actor_url" href=""></a>
-                        <div class="flex_row_end">
-                            <div id="activity_date"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="reply_modal" class="hide_display ">
-                    <br>
-                    <div>
-                        <label class="reply_label" for="reply_input">Replying to <label id="reply_username"></label>
-                        </label>
-                    </div>
-                    <br>
-                    <div class="flex_center_content flex_row_center">
-                        <textarea id="reply_input"></textarea>
-                    </div>
-                    <br>
-                    <div class="flex_row_end">
-                        <button id="cancel_reply">Cancel</button>
-                        <button id="send_reply">Reply</button>
-                    </div>
-                    <br>
-                </section>
-
-                <section id="modal_footer">
-                    <div id="provider"></div>
-                </section>
-
             </section>
         </div>
-    </section>
-    <br><br>
-    <!--<div class="flex_row_start date_padding">-->
-        <!--<div>select date:</div>-->
-        <!--<label for="actor_select_menu">Select Date</label>-->
-     <!--   <select name="actor_graph_days" id="actor_select_menu"></select>
     </div>
-    <br><br>-->
-    <div class="flex_row_center">
-        <div id="actor_graph" class=""></div>
+    <div class="load_content">
+        <div id="date_container" class="flex_row_center">
+            <div class="select ">
+                <span class="arr"></span>
+                <select name="dateSelect" id="date_select" class="inset">
+                    <option value="">Select Date: &nbsp;</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex_row_center">
+            <div id="view_mentions"> View Mentions</div>
+            <div id="actor_graph_header" class="tabcontent"></div>
+            <div id="header_date" class="tabcontent"></div>
+        </div>
+
+        <div class="flex_row_center ">
+            <div id="actor_graph" class=""></div>
+        </div>
+
+        <section id="response_timeline">
+            <div id="modal" class="flex_column_end visible">
+                <section class="modal_actor_container">
+                    <section id="modal_header" class="flex_row_start">
+                        <img id="actor_avator" src="" alt=""/>
+                        <div>
+                            <p id="actor_name"></p>
+                            <p id="actor_username"></p>
+                        </div>
+
+                        <div class="flex_row_center reach">
+                            <p id="actor_description"></p>
+                        </div>
+                    </section>
+
+                    <section id="modal_body">
+                        <p id="activity_message"></p>
+                        <div class="flex_row_start">
+                            <a id="actor_url" href=""></a>
+                            <div class="flex_row_end">
+                                <div id="activity_date"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="reply_modal" class="hide_display ">
+                        <br>
+                        <div>
+                            <label class="reply_label" for="reply_input">Replying to <label id="reply_username"></label>
+                            </label>
+                        </div>
+                        <br>
+                        <div class="flex_center_content flex_row_center">
+                            <textarea id="reply_input"></textarea>
+                        </div>
+                        <br>
+                        <div class="flex_row_end">
+                            <button id="cancel_reply">Cancel</button>
+                            <button id="send_reply">Reply</button>
+                        </div>
+                        <br>
+                    </section>
+
+                    <section id="modal_footer">
+                        <div id="provider"></div>
+                    </section>
+
+                </section>
+            </div>
+        </section>
     </div>
 
     <script src="static/public/build/bundle.js"></script>

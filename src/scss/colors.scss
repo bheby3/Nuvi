@@ -79,6 +79,14 @@ $font: "sans-serif", Arial;
   @include text-blur;
 }
 
+.inset {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.outset {
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 1);
+}
+
 .node {
   fill: #ccc;
   stroke: #fff;
@@ -178,4 +186,21 @@ svg {
   shape-rendering: crispEdges;
 }
 
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+}
+
+.load_content {
+  display: none;
+  text-align: center;
+}
+
+.spin_container {
+  position: absolute;
+  z-index: 9999;
+  top: 45%;
+  right: 50%;
+  color: white;
+}
 
