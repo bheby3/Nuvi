@@ -677,9 +677,7 @@ var DashBoardManager = (function () {
   function showPage() {
     spin.style.display = "none";
     loading.style.display = "none";
-    for (var i = 0; i < loadContent.length; i++) {
-      loadContent[i].style.display = "block";
-    }
+    loaded.style.display = "none";
   }
 
   function toggleModalFn() {
@@ -741,7 +739,7 @@ var DashBoardManager = (function () {
     dateSelect = document.getElementById('date_select'),
     viewMentions = document.getElementById('view_mentions'),
     tabcontent = document.getElementsByClassName("tabcontent"),
-    loadContent = document.getElementsByClassName("load_content"),
+    loaded = document.getElementById("loaded"),
     spin = document.getElementById("spin"),
     loading = document.getElementById("loading"),
 
