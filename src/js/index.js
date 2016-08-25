@@ -3,36 +3,6 @@
 require('../scss/base.scss');
 
 var DashBoardManager = (function () {
-
-  /*function loadingOverlay() {
-    var
-      margin = {top: 0, right: 0, bottom: 0, left: 0},
-      width = 1000,
-      height = 1000;
-
-    var svg = d3.select(`#loaded`).append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("id", `loading`)
-      .attr('class', 'tabcontent')
-      // .style('z-index', '99998')
-      .style('background-color', "black")
-      .style('border-bottom', '1px solid #1B1B1B')
-      .style('margin-bottom', '8px')
-      .style('padding-bottom', '8px')
-      .style('box-shadow', '0 0px 15px 5px rgba(0, 0, 0, 1)');
-
-    var load = svg.append("text")
-      // .attr("id", `loadText`)
-      .attr('class', 'tabcontent')
-      .style('z-index', '99999')
-      .style('color', 'white')
-      .attr("x", ( width + margin.left + margin.right ) / 2)
-      .attr("y", ( height + margin.top + margin.bottom ) / 2)
-      .attr("dy", ".35em")
-      .style("text-anchor", "middle")
-      .text("Simulating. One moment please…");
-  }*/
   
   function generateActorGraph() {
 
@@ -296,13 +266,6 @@ var DashBoardManager = (function () {
       renderGraph()
     }
 
-  }
-
-  function defaultGraph() {
-    var modalTest = document.getElementById(`modal${days.length - 1}`);
-    console.log(modalTest);
-    document.getElementById(`modal${days.length - 1}`).className += " active";
-    document.getElementById(`modal${days.length - 1}`).style.display = "block";
   }
 
   function generateHourMentionArray() {
@@ -768,7 +731,6 @@ var DashBoardManager = (function () {
     neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage'),
     actorGraph = document.getElementById('actor_graph'),
     actorGraphHeader = document.getElementById("actor_graph_header"),
-    headerDate = document.getElementById("header_date"),
     dateSelect = document.getElementById('date_select'),
     viewMentions = document.getElementById('view_mentions'),
     tabcontent = document.getElementsByClassName("tabcontent"),
@@ -777,7 +739,6 @@ var DashBoardManager = (function () {
     loading = document.getElementById("loading"),
 
     publicApi = {
-      // loadingOverlay: loadingOverlay,
       mapActorsData: mapActorsData,
       generateProviderStats: generateProviderStats,
       generateRandomHourForMention: generateRandomHourForMention,
@@ -792,13 +753,10 @@ var DashBoardManager = (function () {
 
 })();
 
-// DashBoardManager.loadingOverlay();
-
 fetch('https://nuvi-challenge.herokuapp.com/activities')
   .then(function (response) {
     return response.json()
   }).then(function (actorsData) {
-  // DashBoardManager.loadingOverlay();
   DashBoardManager.mapActorsData(actorsData);
   DashBoardManager.generateProviderStats();
   DashBoardManager.generateRandomHourForMention(actorsData);
