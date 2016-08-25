@@ -4,12 +4,42 @@ require('../scss/base.scss');
 
 var DashBoardManager = (function () {
 
+  /*function loadingOverlay() {
+    var
+      margin = {top: 0, right: 0, bottom: 0, left: 0},
+      width = 1000,
+      height = 1000;
+
+    var svg = d3.select(`#loaded`).append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("id", `loading`)
+      .attr('class', 'tabcontent')
+      // .style('z-index', '99998')
+      .style('background-color', "black")
+      .style('border-bottom', '1px solid #1B1B1B')
+      .style('margin-bottom', '8px')
+      .style('padding-bottom', '8px')
+      .style('box-shadow', '0 0px 15px 5px rgba(0, 0, 0, 1)');
+
+    var load = svg.append("text")
+      // .attr("id", `loadText`)
+      .attr('class', 'tabcontent')
+      .style('z-index', '99999')
+      .style('color', 'white')
+      .attr("x", ( width + margin.left + margin.right ) / 2)
+      .attr("y", ( height + margin.top + margin.bottom ) / 2)
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text("Simulating. One moment please…");
+  }*/
+  
   function generateActorGraph() {
 
     /*selection function chooses the graph to show*/
     dateSelect.onchange = function (event) {
-      let tabId = `modal${event.srcElement.value}`;
-      showGraph(event, tabId);
+      let optionId = `modal${event.srcElement.value}`;
+      showGraph(event, optionId);
       window.scrollTo(0, document.body.scrollHeight);
     };
 
@@ -27,15 +57,15 @@ var DashBoardManager = (function () {
 
       actorDayGraph(days[i], i)
     }
+
     function showGraph(evt, graphId) {
       for (var i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
       }
-
       actorGraphHeader.style.display = "block";
       evt.currentTarget.className += " active";
-      headerDate.style.display = "block";
-      evt.currentTarget.className += " active";
+      /*headerDate.style.display = "block";
+       evt.currentTarget.className += " active";*/
       viewMentions.style.display = "block";
       evt.currentTarget.className += " active";
       document.getElementById(graphId).style.display = "block";
@@ -75,12 +105,14 @@ var DashBoardManager = (function () {
 
       var data = day;
       var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
-
-      var margin = {top: 0, right: 0, bottom: 0, left: 0},
-        width = 1290 - margin.left - margin.right,
+      
+      var
+        margin = {top: 0, right: 0, bottom: 0, left: 0},
+        width = 1265 - margin.left - margin.right,
         height = 335 - margin.top - margin.bottom,
         padding = 0,
         maxRadius = 100;
+
       var x = d3.time.scale()
         .range([60, 1200])
         .domain(d3.extent(data, setDateFn));
@@ -127,8 +159,8 @@ var DashBoardManager = (function () {
         .style('box-shadow', '0 0px 15px 5px rgba(0, 0, 0, 1)');
 
       var loading = svg.append("text")
-        // .attr("id", `modal${i}`)
-        // .attr('class', 'tabcontent')
+        .attr("id", `modal${i}`)
+        .attr('class', 'tabcontent')
         .attr("x", ( width + margin.left + margin.right ) / 2)
         .attr("y", ( height + margin.top + margin.bottom ) / 2)
         .attr("dy", ".35em")
@@ -260,8 +292,17 @@ var DashBoardManager = (function () {
         });
         loading.remove();
       }
+
       renderGraph()
     }
+
+  }
+
+  function defaultGraph() {
+    var modalTest = document.getElementById(`modal${days.length - 1}`);
+    console.log(modalTest);
+    document.getElementById(`modal${days.length - 1}`).className += " active";
+    document.getElementById(`modal${days.length - 1}`).style.display = "block";
   }
 
   function generateHourMentionArray() {
@@ -314,24 +355,18 @@ var DashBoardManager = (function () {
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
       width = 850 - margin.left - margin.right,
       height = 170 - margin.top - margin.bottom;
-
-// Parse the date / time
-
+    
     var parseDate = d3.time.format("%Y-%m-%d-%H").parse;
-
-// ranges
 
     var x = d3.time.scale().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
-
-//axes
+    
     var xAxis = d3.svg.axis().scale(x)
       .orient("bottom").ticks(15);
 
     var yAxis = d3.svg.axis().scale(y)
       .orient("left").ticks(5);
-
-// line
+    
     var valueline = d3.svg.line()
       .x(function (d) {
         return x(d.date);
@@ -339,8 +374,7 @@ var DashBoardManager = (function () {
       .y(function (d) {
         return y(d.close);
       });
-
-// Adds svg canvas
+    
     var svg = d3.select("#mentions_timeline_chart")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -354,16 +388,14 @@ var DashBoardManager = (function () {
         d.date = parseDate(d.date);
         d.close = +d.close;
       });
-
-      // Scale the range of the data
+      
       x.domain(d3.extent(data, function (d) {
         return d.date;
       }));
       y.domain([0, d3.max(data, function (d) {
         return d.close;
       })]);
-
-      // Add path.
+      
       svg.append("path")
         .attr("class", "line")
         .attr("d", valueline(data));
@@ -380,13 +412,14 @@ var DashBoardManager = (function () {
         .call(yAxis);
       showPage()
     }
+
     getTheData(data);
   }
 
   function generateProviderBarChart() {
 
-    var w = "100%",
-      h = "50%",
+    var w = "410",
+      h = "230",
       padding = 4;
 
     d3.select("#mentions_wrapper").append("svg")
@@ -396,7 +429,7 @@ var DashBoardManager = (function () {
 
     var x = d3.scale.linear()
       .domain([0, d3.max(socialMediaStats)])
-      .range([0, 420]);
+      .range([5, 380]);
 
     d3.select("#reach")
       .selectAll("div")
@@ -405,7 +438,7 @@ var DashBoardManager = (function () {
       .style("width", function (d) {
         return x(d.number) + "px";
       })
-      .style("margin", ".75em 4px 1em 6px")
+      .style("margin", "1em 4px 1em 6px")
       .style("padding-left", ".75em")
       .attr("id", function (d, i) {
         var result = 'social_media' + i;
@@ -465,8 +498,8 @@ var DashBoardManager = (function () {
 
   function generateSentimentBarChart() {
     var
-      w = "100%",
-      h = "50%",
+      w = "410",
+      h = "230",
       padding = 4,
       social;
 
@@ -482,7 +515,7 @@ var DashBoardManager = (function () {
 
     var x = d3.scale.linear()
       .domain([0, d3.max(sentimentStats)])
-      .range([0, 420]);
+      .range([5, 390]);
 
     d3.select("#sentiment_timeline_body")
       .selectAll("div")
@@ -744,6 +777,7 @@ var DashBoardManager = (function () {
     loading = document.getElementById("loading"),
 
     publicApi = {
+      // loadingOverlay: loadingOverlay,
       mapActorsData: mapActorsData,
       generateProviderStats: generateProviderStats,
       generateRandomHourForMention: generateRandomHourForMention,
@@ -758,10 +792,13 @@ var DashBoardManager = (function () {
 
 })();
 
+// DashBoardManager.loadingOverlay();
+
 fetch('https://nuvi-challenge.herokuapp.com/activities')
   .then(function (response) {
     return response.json()
   }).then(function (actorsData) {
+  // DashBoardManager.loadingOverlay();
   DashBoardManager.mapActorsData(actorsData);
   DashBoardManager.generateProviderStats();
   DashBoardManager.generateRandomHourForMention(actorsData);
