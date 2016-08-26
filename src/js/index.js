@@ -4,12 +4,12 @@ require('../scss/base.scss');
 
 var DashBoardManager = (function () {
   
-  function generateActorGraph() {
+  function generateIndividualActorGraph() {
 
     /*selection function chooses the graph to show*/
     dateSelect.onchange = function (event) {
       let optionId = `modal${event.srcElement.value}`;
-      showGraph(event, optionId);
+      showActorGraph(event, optionId);
       window.scrollTo(0, document.body.scrollHeight);
     };
 
@@ -25,24 +25,22 @@ var DashBoardManager = (function () {
       dateSelect.appendChild(option);
       actorGraph.appendChild(graph);
 
-      actorDayGraph(days[i], i)
+      individualActorGraph(days[i], i)
     }
 
-    function showGraph(evt, graphId) {
+    function showActorGraph(evt, graphId) {
       for (var i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
       }
       actorGraphHeader.style.display = "block";
       evt.currentTarget.className += " active";
-      /*headerDate.style.display = "block";
-       evt.currentTarget.className += " active";*/
       viewMentions.style.display = "block";
       evt.currentTarget.className += " active";
       document.getElementById(graphId).style.display = "block";
       evt.currentTarget.className += " active";
     }
 
-    function actorDayGraph(day, i) {
+    function individualActorGraph(day, i) {
       var setDateFn = function (d) {
         return format.parse(d.activity_date)
       };
@@ -150,7 +148,6 @@ var DashBoardManager = (function () {
           node.cy = node.y;
         }
       }
-
       /**
        * On a tick, move the node towards its desired position,
        * with a preference for accuracy of the node's x-axis placement
@@ -235,7 +232,7 @@ var DashBoardManager = (function () {
           .on("mouseover", mouseoverFunction)
           .on("mouseout", handleMouseOut)
           .on("click", function (d) {
-            setModalFn(d.modalData);
+            setIndvidualActorModalContent(d.modalData);
           });
 
         var text = svg.append("svg:g").selectAll("g")
@@ -253,7 +250,7 @@ var DashBoardManager = (function () {
           .style("display", "block")
           .style("cursor", "pointer")
           .on("click", function (d) {
-            setModalFn(d.modalData);
+            setIndvidualActorModalContent(d.modalData);
           });
 
         text.attr("transform", function (d) {
@@ -262,10 +259,8 @@ var DashBoardManager = (function () {
         });
         loading.remove();
       }
-
       renderGraph()
     }
-
   }
 
   function generateHourMentionArray() {
@@ -277,15 +272,13 @@ var DashBoardManager = (function () {
           makeArray(hourCounter, day);
         }
       }
-
       mentionCounter = hourCounter.sort().map(x => 0);
 
       generateHourlyMentions(mentionCounter)
     }
 
     generateHourlyMentionTimes(datasetWithUpdatedDate);
-
-
+    
     function generateHourlyMentions(mentionCounter) {
       var dataset = datasetWithUpdatedDate;
       for (let i = 0; i < dataset.length; i++) {
@@ -297,12 +290,10 @@ var DashBoardManager = (function () {
       }
       generateHourMentionObjArray()
     }
-
     function makeHourlyObjArray(array, hour, mention) {
       let obj = {"date": hour, "close": mention};
       array.push(obj)
     }
-
     function generateHourMentionObjArray() {
       for (let i = 0; i < hourCounter.length; i++) {
         let hour = hourCounter[i].toString();
@@ -375,7 +366,6 @@ var DashBoardManager = (function () {
         .call(yAxis);
       showPage()
     }
-
     getTheData(data);
   }
 
@@ -394,7 +384,7 @@ var DashBoardManager = (function () {
       .domain([0, d3.max(socialMediaStats)])
       .range([5, 380]);
 
-    d3.select("#reach")
+    d3.select("#mentions_per_provider_graph")
       .selectAll("div")
       .data(socialMediaProviderNames)
       .enter().append("div")
@@ -418,7 +408,7 @@ var DashBoardManager = (function () {
       negativePercentage,
       neutralPercentage,
       totalPercentage;
-
+    
     positivePercentage = Math.round(100 * (good / total).toFixed(4));
     negativePercentage = Math.round(100 * (bad / total).toFixed(4));
     neutralPercentage = Math.round(100 * (neutral / total).toFixed(4));
@@ -427,7 +417,6 @@ var DashBoardManager = (function () {
       if (totalPercentage > 100) neutralPercentage--;
       if (totalPercentage < 100) neutralPercentage++;
     }
-
     positiveSentimentPercentage.innerHTML = positivePercentage + "%";
     negativeSentimentPercentage.innerHTML = negativePercentage + "%";
     neutralSentimentPercentage.innerHTML = neutralPercentage + "%";
@@ -455,7 +444,6 @@ var DashBoardManager = (function () {
         makeArray(mentionsPerHour, hours)
       }
     }
-
     randomTimeGenerator();
   }
 
@@ -532,7 +520,6 @@ var DashBoardManager = (function () {
       var datum = parseInt(dataset[i].activity_shares);
       if ((datum) && (datum > 0)) totalActivityShares++;
     }
-
     /*getting mentions per day*/
     for (let i = 0; i < dataset.length; i++) {
       var date = dataset[i].activity_date;
@@ -588,8 +575,11 @@ var DashBoardManager = (function () {
       , {name: 'Neutral: ' + neutral, number: neutral}];
 
     totalMentionsInPeriod.innerHTML = data.length.toString();
+    totalMentionsInPeriod.classList.add('mentions')
     totalSharedMentions.innerHTML = totalActivityShares.toString();
+    totalSharedMentions.classList.add('mentions');
     totalDays.innerHTML = totalDaysInDataset.length.toString();
+    totalDays.classList.add('mentions');
 
     function addDaysInDataset() {
       for (let i = 0; i < totalDaysInDataset.length; i++) {
@@ -599,27 +589,25 @@ var DashBoardManager = (function () {
         divToInsertOn.appendChild(graph).className = "flex_row_center";
       }
     }
-
     addDaysInDataset();
     avgMentions = Math.round((data.length / totalDaysInDataset.length)).toString();
     avgMentionsPerDay.innerHTML = avgMentions;
+    avgMentionsPerDay.classList.add('mentions');
   }
 
   function makeArray(array, d) {
     array.push(d);
   }
 
-  function setModalFn(d) {
+  function setIndvidualActorModalContent(d) {
     modalOverlay.onclick = function () {
       modal.classList.toggle('visible');
       replyModalBody.classList.add('hide_display');
       modalOverlay.classList.toggle('hide_display');
     };
-
     reply.onclick = function openReplyModalFn() {
       replyModalBody.classList.toggle('hide_display');
     };
-
     cancelReply.onclick = function () {
       replyModalBody.classList.add('hide_display')
     };
@@ -746,11 +734,11 @@ var DashBoardManager = (function () {
       generateProviderBarChart: generateProviderBarChart,
       generateSentimentBarChart: generateSentimentBarChart,
       generateHourlyMentionsLineGraph: generateHourlyMentionsLineGraph,
-      generateActorGraph: generateActorGraph
+      generateIndividualActorGraph: generateIndividualActorGraph
     };
 
   return publicApi;
-
+  
 })();
 
 fetch('https://nuvi-challenge.herokuapp.com/activities')
@@ -764,7 +752,7 @@ fetch('https://nuvi-challenge.herokuapp.com/activities')
   DashBoardManager.generateProviderBarChart();
   DashBoardManager.generateSentimentBarChart();
   DashBoardManager.generateHourlyMentionsLineGraph();
-  DashBoardManager.generateActorGraph();
+  DashBoardManager.generateIndividualActorGraph();
 });
 
 
