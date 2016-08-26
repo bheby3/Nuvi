@@ -1,7 +1,7 @@
 require('../scss/base.scss');
 
 var DashBoardManager = (function () {
-  
+
   function generateIndividualActorGraph() {
 
     /*selection function chooses the graph to show*/
@@ -71,7 +71,7 @@ var DashBoardManager = (function () {
 
       var data = day;
       var format = d3.time.format("%Y-%m-%d-%H-%M-%S");
-      
+
       var
         margin = {top: 0, right: 0, bottom: 0, left: 0},
         width = 1265 - margin.left - margin.right,
@@ -146,6 +146,7 @@ var DashBoardManager = (function () {
           node.cy = node.y;
         }
       }
+
       /**
        * On a tick, move the node towards its desired position,
        * with a preference for accuracy of the node's x-axis placement
@@ -257,6 +258,7 @@ var DashBoardManager = (function () {
         });
         loading.remove();
       }
+
       renderGraph()
     }
   }
@@ -276,7 +278,7 @@ var DashBoardManager = (function () {
     }
 
     generateHourlyMentionTimes(datasetWithUpdatedDate);
-    
+
     function generateHourlyMentions(mentionCounter) {
       var dataset = datasetWithUpdatedDate;
       for (let i = 0; i < dataset.length; i++) {
@@ -288,10 +290,12 @@ var DashBoardManager = (function () {
       }
       generateHourMentionObjArray()
     }
+
     function makeHourlyObjArray(array, hour, mention) {
       let obj = {"date": hour, "close": mention};
       array.push(obj)
     }
+
     function generateHourMentionObjArray() {
       for (let i = 0; i < hourCounter.length; i++) {
         let hour = hourCounter[i].toString();
@@ -307,18 +311,18 @@ var DashBoardManager = (function () {
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
       width = 850 - margin.left - margin.right,
       height = 170 - margin.top - margin.bottom;
-    
+
     var parseDate = d3.time.format("%Y-%m-%d-%H").parse;
 
     var x = d3.time.scale().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
-    
+
     var xAxis = d3.svg.axis().scale(x)
       .orient("bottom").ticks(15);
 
     var yAxis = d3.svg.axis().scale(y)
       .orient("left").ticks(5);
-    
+
     var valueline = d3.svg.line()
       .x(function (d) {
         return x(d.date);
@@ -326,7 +330,7 @@ var DashBoardManager = (function () {
       .y(function (d) {
         return y(d.close);
       });
-    
+
     var svg = d3.select("#mentions_timeline_chart")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -340,14 +344,14 @@ var DashBoardManager = (function () {
         d.date = parseDate(d.date);
         d.close = +d.close;
       });
-      
+
       x.domain(d3.extent(data, function (d) {
         return d.date;
       }));
       y.domain([0, d3.max(data, function (d) {
         return d.close;
       })]);
-      
+
       svg.append("path")
         .attr("class", "line")
         .attr("d", valueline(data));
@@ -362,19 +366,17 @@ var DashBoardManager = (function () {
       svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
-      showPage()
     }
+
     getTheData(data);
   }
 
   function generateProviderBarChart() {
-
     var w = "410",
       h = "230",
       padding = 4;
 
     d3.select("#mentions_wrapper").append("svg")
-
       .attr("width", w)
       .attr("height", h);
 
@@ -406,7 +408,7 @@ var DashBoardManager = (function () {
       negativePercentage,
       neutralPercentage,
       totalPercentage;
-    
+
     positivePercentage = Math.round(100 * (good / total).toFixed(4));
     negativePercentage = Math.round(100 * (bad / total).toFixed(4));
     neutralPercentage = Math.round(100 * (neutral / total).toFixed(4));
@@ -442,6 +444,7 @@ var DashBoardManager = (function () {
         makeArray(mentionsPerHour, hours)
       }
     }
+
     randomTimeGenerator();
   }
 
@@ -490,6 +493,7 @@ var DashBoardManager = (function () {
   }
 
   function mapActorsData(data) {
+    // showPage();
     var avgMentions;
 
     let dataset = data;
@@ -587,6 +591,7 @@ var DashBoardManager = (function () {
         divToInsertOn.appendChild(graph).className = "flex_row_center";
       }
     }
+
     addDaysInDataset();
     avgMentions = Math.round((data.length / totalDaysInDataset.length)).toString();
     avgMentionsPerDay.innerHTML = avgMentions;
@@ -725,24 +730,26 @@ var DashBoardManager = (function () {
     loading = document.getElementById("loading"),
 
     publicApi = {
-      mapActorsData: mapActorsData,
       generateProviderStats: generateProviderStats,
       generateRandomHourForMention: generateRandomHourForMention,
       generateHourMentionArray: generateHourMentionArray,
       generateProviderBarChart: generateProviderBarChart,
       generateSentimentBarChart: generateSentimentBarChart,
       generateHourlyMentionsLineGraph: generateHourlyMentionsLineGraph,
-      generateIndividualActorGraph: generateIndividualActorGraph
+      generateIndividualActorGraph: generateIndividualActorGraph,
+      mapActorsData: mapActorsData,
+      showPage: showPage,
     };
 
   return publicApi;
-  
+
 })();
 
 fetch('https://nuvi-challenge.herokuapp.com/activities')
   .then(function (response) {
     return response.json()
   }).then(function (actorsData) {
+  DashBoardManager.showPage();
   DashBoardManager.mapActorsData(actorsData);
   DashBoardManager.generateProviderStats();
   DashBoardManager.generateRandomHourForMention(actorsData);
