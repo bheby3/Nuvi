@@ -1,5 +1,3 @@
-//TODO: make ui responsive
-
 require('../scss/base.scss');
 
 var DashBoardManager = (function () {
@@ -122,7 +120,7 @@ var DashBoardManager = (function () {
         .attr('class', 'tabcontent')
         .style('background-color', "black")
         .style('border-bottom', '1px solid #1B1B1B')
-        .style('margin-bottom', '8px')
+        .style('margin-bottom', '20px')
         .style('padding-bottom', '8px')
         .style('box-shadow', '0 0px 15px 5px rgba(0, 0, 0, 1)');
 

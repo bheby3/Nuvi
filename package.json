@@ -11,10 +11,6 @@
   "dependencies": {
     "css-loader": "^0.15.6",
     "extract-text-webpack-plugin": "^0.8.2",
-    "file-system": "^2.2.1",
-    "flexboxgrid": "^6.3.1",
-    "fontawesome": "^4.5.0",
-    "http-server": "^0.8.0",
     "node-sass": "^3.2.0",
     "request": "^2.74.0",
     "sass-loader": "^1.0.3",

@@ -9,14 +9,12 @@ body {
 /* ui header */
 #ui_header {
   position: relative;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   background-color: #212121;
   width: 100%;
   height: 5em;
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
-
   #header {
-
     #title {
       position: absolute;
       top: 25%;
