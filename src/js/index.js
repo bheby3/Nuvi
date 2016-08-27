@@ -652,6 +652,7 @@ var DashBoardManager = (function () {
     actorUrl.innerHTML = d.actor_url;
     activityMessage.innerHTML = d.activity_message;
     activityDate.innerHTML = d.activity_date.split('').slice(0, start).join('');
+    actorActivityShares.innerHTML = d.activity_shares;
     provider.className = "flex_row_start";
     // avatar.onload = function () {
     //   resolve();
@@ -703,6 +704,7 @@ var DashBoardManager = (function () {
     cancelReply = document.getElementById('cancel_reply'),
     actorAvator = document.getElementById('actor_avator'),
     actorName = document.getElementById('actor_name'),
+    actorActivityShares = document.getElementById('mention_modal_shares'),
     actorUserName = document.getElementById('actor_username'),
     actorDescription = document.getElementById('actor_description'),
     replyUserName = document.getElementById('reply_username'),

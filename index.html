@@ -90,12 +90,12 @@
         </div>
         <div id="body_sentiment_wrapper" class="flex_row_center align_items_center">
             <div class="flex_column_center align_items_center">
-                <span id="plus">+</span>
+                <span id="plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
                 <span id="positive_sentiment_percentage" class="flex_row_center"></span>
                 <span id="positive_sentiment">Positive</span>
             </div>
             <div id="negative_borders" class="flex_column_center align_items_center">
-                <span id="minus">-</span>
+                <span id="minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
                 <span id="negative_sentiment_percentage" class="flex_row_center"></span>
                 <span id="negative_sentiment">Negative</span>
             </div>
@@ -139,20 +139,42 @@
 </section>
 
 <section id="modal" class="flex_column_end visible">
-    <section class="modal_actor_container">
-        <section id="modal_header" class="flex_row_start">
-            <img id="actor_avator" src="" alt=""/>
-            <div>
-                <p id="actor_name"></p>
-                <p id="actor_username"></p>
+    <div class="modal_actor_container">
+        <div id="modal_header">
+
+            <div class="flex_row_start">
+                <div id="actor_avatar"><img id="actor_avator" src="" alt=""/></div>
+                <div class="flex_column_center">
+                    <p id="actor_name"></p>
+                    <p id="actor_username"></p>
+                </div>
             </div>
 
+            <div id="like_dislike_shares" class="flex_row_end">
+
+                <div id="mention_modal_like" class="flex_column_center">
+                    <div class="flex_column_center"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                    <!--<div class="flex_column_center">like</div>-->
+                </div>
+
+                <div id="mention_modal_dislike" class="flex_column_center">
+                    <div class="flex_row_center"><i class="fa fa-minus-circle" aria-hidden="true"></i></div>
+                    <!--<div class="flex_row_center"><div>dislike</div></div>-->
+                </div>
+
+                <div id="mention_modal_shares_wrapper" class="flex_column_center">
+                    <div class="flex_row_center">
+                        <div id="mention_modal_shares"></div>
+                    </div>
+                    <div><span>shares</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal_body">
             <div class="flex_row_center reach">
                 <p id="actor_description"></p>
             </div>
-        </section>
-
-        <section id="modal_body">
             <p id="activity_message"></p>
             <div class="flex_row_start">
                 <a id="actor_url" href=""></a>
@@ -160,9 +182,9 @@
                     <div id="activity_date"></div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="reply_modal" class="hide_display ">
+        <div id="reply_modal" class="hide_display ">
             <br>
             <div>
                 <label class="reply_label" for="reply_input">Replying to <label id="reply_username"></label>
@@ -178,13 +200,13 @@
                 <button id="send_reply">Reply</button>
             </div>
             <br>
-        </section>
+        </div>
 
         <section id="modal_footer">
             <div id="provider"></div>
         </section>
 
-    </section>
+    </div>
 </section>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
