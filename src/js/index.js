@@ -618,16 +618,17 @@ var DashBoardManager = (function () {
     (function (d) {
       switch (d.provider) {
         case "twitter":
-          provider.innerHTML = "<i class=" + "'fa fa-twitter-square'></i> &nbsp;  <i class=" + "'fa fa-star change_cursor'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          // provider.innerHTML = "<i class=" + "'fa fa-twitter-square twitter'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor reply'></i> &nbsp;  <i class=" + "'fa fa-star change_cursor flex_row_end'></i>"  ;
+          provider.innerHTML = `<i class='fa fa-twitter-square twitter'></i> &nbsp; <i class='fa fa-reply change_cursor reply'></i> &nbsp;  <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class='fa fa-star change_cursor'></i> &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
           break;
         case "facebook":
-          provider.innerHTML = "<i class=" + "'fa fa-facebook'></i> &nbsp; <i class=" + "'fa fa-star change_cursor'></i>  &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = `<i class=  'fa fa-facebook-square facebook'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp; <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class='fa fa-star change_cursor'></i>&nbsp;  <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
           break;
         case "instagram":
-          provider.innerHTML = "<i class=" + "'fa fa-instagram'></i>&nbsp;  <i class=" + "'fa fa-star change_cursor'></i>  &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = `<i class=  'fa fa-instagram instagram'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp;  <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class=  'fa fa-star change_cursor'></i>  &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
           break;
         case "tumblr":
-          provider.innerHTML = "<i class=" + "'fa fa-tumblr-square'></i> &nbsp; <i class=" + "'fa fa-star change_cursor'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor'></i>";
+          provider.innerHTML = `<i class=  'fa fa-tumblr-square tumblr'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp; <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class=  'fa fa-star change_cursor'></i> &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
           break;
         default:
           break;

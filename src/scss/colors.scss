@@ -1,7 +1,13 @@
+$facebook: #3B5998;
 $font: "sans-serif", Arial;
-$positive: #40E63D;
+$instagram: #FD1D1D;
 $negative: #C22137;
 $number-color: #ffffff;
+$positive: #40E63D;
+$reply: #C8ECF2;
+$tumblr: #35465C;
+$twitter: #1DA1F2;
+
 
 @mixin flex_column {
   display: flex;
@@ -94,6 +100,36 @@ $number-color: #ffffff;
 
 .date_padding {
   margin-left: 83%;
+}
+
+.fa-retweet {
+  padding-left: .5em;
+}
+.fa-flag {
+  padding-right: .5em;
+}
+.fa-star {
+  padding-right: .5em;
+}
+.facebook {
+  padding-left: .5em;
+  color: $facebook;
+}
+.instagram {
+  padding-left: .5em;
+  color: $instagram;
+}
+.twitter {
+  padding-left: .5em;
+  color: $twitter;
+}
+.tumblr {
+  padding-left: .5em;
+  color: $tumblr;
+}
+.reply {
+  padding-left: .5em;
+  color: $reply;
 }
 
 .link {
