@@ -105,7 +105,6 @@ body {
   width: 100%;
   height: 230px;
   padding-bottom: .5em;
-
   #mentions_per_provider_wrapper {
     border-right: 1px solid #0A0909;
     border-bottom: 1px solid #1B1B1B;
@@ -114,7 +113,6 @@ body {
     height: auto;
     margin: .5em .5em .5em 2.5em;
     background-color: #000000;
-
     #mentions_per_provider_header {
       box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
       border-top: 1px solid #2F2F2F;
@@ -420,11 +418,10 @@ body {
 #loading_overlay {
   #loaded {
     position: absolute;
-    z-index: 9998;
-    background: #1B1B1B;
-    top: 12%;
     width: 100%;
     height: 100%;
+    z-index: 9998;
+    background: #1B1B1B;
   }
   #loading {
     position: absolute;
@@ -447,6 +444,9 @@ body {
   }
 }
 
+#page_content {
+  display: none;
+}
 /*Actor Display Modal*/
 #modal_overlay {
   position: absolute;
@@ -458,8 +458,8 @@ body {
 #modal {
   border-radius: 25px;
   position: absolute;
-  right: calc(50% - 640px);
-  top: 390px;
+  right: calc(50% - 642px);
+  top: 373px;
   //width: 405px;
   width: 500px;
   z-index: 9999;

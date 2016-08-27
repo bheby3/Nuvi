@@ -318,7 +318,7 @@ var DashBoardManager = (function () {
     var y = d3.scale.linear().range([height, 0]);
 
     var xAxis = d3.svg.axis().scale(x)
-      .orient("bottom").ticks(15);
+      .orient("bottom").ticks(13);
 
     var yAxis = d3.svg.axis().scale(y)
       .orient("left").ticks(5);
@@ -667,6 +667,7 @@ var DashBoardManager = (function () {
     spin.style.display = "none";
     loading.style.display = "none";
     loaded.style.display = "none";
+    pageContent.style.display = "block";
   }
 
   function toggleModalFn() {
@@ -728,6 +729,7 @@ var DashBoardManager = (function () {
     dateSelect = document.getElementById('date_select'),
     viewMentions = document.getElementById('view_mentions'),
     tabcontent = document.getElementsByClassName("tabcontent"),
+    pageContent = document.getElementById("page_content"),
     loaded = document.getElementById("loaded"),
     spin = document.getElementById("spin"),
     loading = document.getElementById("loading"),
