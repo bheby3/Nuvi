@@ -3,6 +3,9 @@ require('../scss/base.scss');
 var DashBoardManager = (function () {
 
   function generateIndividualActorGraph() {
+    var
+      actorGraph = document.getElementById('actor_graph'),
+      dateSelect = document.getElementById('date_select');
 
     /*selection function chooses the graph to show*/
     dateSelect.onchange = function (event) {
@@ -22,11 +25,15 @@ var DashBoardManager = (function () {
       option.innerHTML = `${totalDaysInDataset[i]}`;
       dateSelect.appendChild(option);
       actorGraph.appendChild(graph);
-
       individualActorGraph(days[i], i)
     }
 
     function showActorGraph(evt, graphId) {
+      var
+        actorGraphHeader = document.getElementById("actor_graph_header"),
+        viewMentions = document.getElementById('view_mentions'),
+        tabcontent = document.getElementsByClassName("tabcontent");
+
       for (var i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
       }
@@ -263,50 +270,55 @@ var DashBoardManager = (function () {
     }
   }
 
-  function generateHourMentionArray() {
-    function generateHourlyMentionTimes() {
-      var dataset = datasetWithUpdatedDate;
-      for (let i = 0; i < dataset.length; i++) {
-        let day = dataset[i].timeHour.toString();
-        if ((day) && (hourCounter.indexOf(day) === -1)) {
-          makeArray(hourCounter, day);
-        }
-      }
-      mentionCounter = hourCounter.sort().map(x => 0);
+  function generateHourlyMentionsLineGraph(data) {
 
-      generateHourlyMentions(mentionCounter)
+    var hourCounter = [],
+      mentionCounter,
+      hourMentionCombined = [],
+      datasetWithUpdatedDate = [],
+      dataset;
+
+    /*generate random hour to modify date*/
+    for (let i = 0; i < data.length; i++) {
+      var hours = Math.random() * (24) | 0;
+      if (hours < 10) hours = "0" + hours;
+      var hour = hours;
+      var minutes = Math.random() * (60) | 0;
+      var seconds = Math.random() * (60) | 0;
+      hour = "-" + hour + "-" + minutes + "-" + seconds;
+      data[i].timeHour = data[i].activity_date + "-" + hours;
+      data[i].activity_date = data[i].activity_date + hour;
+      data[i].hour = hours;
+      datasetWithUpdatedDate.push(data[i]);
     }
 
-    generateHourlyMentionTimes(datasetWithUpdatedDate);
-
-    function generateHourlyMentions(mentionCounter) {
-      var dataset = datasetWithUpdatedDate;
-      for (let i = 0; i < dataset.length; i++) {
-        let day = dataset[i].timeHour.toString();
-        if ((day) && (hourCounter.indexOf(day) !== -1)) {
-          let hourToIncrement = parseInt(hourCounter.indexOf(day));
-          incArray(mentionCounter, hourToIncrement);
-        }
+    dataset = datasetWithUpdatedDate;
+    
+    /*generate array for line graph*/
+    for (let i = 0; i < dataset.length; i++) {
+      let day = dataset[i].timeHour.toString();
+      if ((day) && (hourCounter.indexOf(day) === -1)) {
+        hourCounter.push(day);
       }
-      generateHourMentionObjArray()
+    }
+    mentionCounter = hourCounter.sort().map(x => 0);
+
+    for (let i = 0; i < dataset.length; i++) {
+      let day = dataset[i].timeHour.toString();
+      if ((day) && (hourCounter.indexOf(day) !== -1)) {
+        let hourToIncrement = parseInt(hourCounter.indexOf(day));
+        mentionCounter[hourToIncrement]++;
+      }
     }
 
-    function makeHourlyObjArray(array, hour, mention) {
+    for (let i = 0; i < hourCounter.length; i++) {
+      let hour = hourCounter[i].toString();
+      let mention = mentionCounter[i];
       let obj = {"date": hour, "close": mention};
-      array.push(obj)
+      hourMentionCombined.push(obj);
     }
 
-    function generateHourMentionObjArray() {
-      for (let i = 0; i < hourCounter.length; i++) {
-        let hour = hourCounter[i].toString();
-        let mention = mentionCounter[i];
-        makeHourlyObjArray(hourMentionCombined, hour, mention)
-      }
-    }
-  }
-
-  function generateHourlyMentionsLineGraph() {
-    var data = hourMentionCombined;
+    data = hourMentionCombined;
 
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
       width = 850 - margin.left - margin.right,
@@ -339,7 +351,7 @@ var DashBoardManager = (function () {
       .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 
-    function getTheData(data) {
+    function getTheData() {
       data.map(function (d) {
         d.date = parseDate(d.date);
         d.close = +d.close;
@@ -356,19 +368,16 @@ var DashBoardManager = (function () {
         .attr("class", "line")
         .attr("d", valueline(data));
 
-      // Add X Axis
       svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
-      // Add Y Axis
       svg.append("g")
         .attr("class", "y axis")
         .call(yAxis);
     }
-
-    getTheData(data);
+    getTheData();
   }
 
   function generateProviderBarChart() {
@@ -400,52 +409,6 @@ var DashBoardManager = (function () {
       .text(function (d) {
         return d.name + ": " + d.number;
       });
-  }
-
-  function generateProviderStats() {
-    var total = good + bad + neutral,
-      positivePercentage,
-      negativePercentage,
-      neutralPercentage,
-      totalPercentage;
-
-    positivePercentage = Math.round(100 * (good / total).toFixed(4));
-    negativePercentage = Math.round(100 * (bad / total).toFixed(4));
-    neutralPercentage = Math.round(100 * (neutral / total).toFixed(4));
-    totalPercentage = positivePercentage + negativePercentage + neutralPercentage;
-    if (totalPercentage !== 100) {
-      if (totalPercentage > 100) neutralPercentage--;
-      if (totalPercentage < 100) neutralPercentage++;
-    }
-    positiveSentimentPercentage.innerHTML = positivePercentage + "%";
-    negativeSentimentPercentage.innerHTML = negativePercentage + "%";
-    neutralSentimentPercentage.innerHTML = neutralPercentage + "%";
-  }
-
-  function generateRandomHourForMention(data) {
-    for (var i = 0; i < data.length; i++) {
-      var hour = Math.random() * (24) | 0;
-      var minutes = Math.random() * (60) | 0;
-      var seconds = Math.random() * (60) | 0;
-      hour = hour + "-" + minutes + "-" + seconds;
-    }
-    function randomTimeGenerator() {
-      for (let i = 0; i < data.length; i++) {
-        var hours = Math.random() * (24) | 0;
-        if (hours < 10) hours = "0" + hours;
-        var hour = hours;
-        var minutes = Math.random() * (60) | 0;
-        var seconds = Math.random() * (60) | 0;
-        hour = "-" + hour + "-" + minutes + "-" + seconds;
-        data[i].timeHour = data[i].activity_date + "-" + hours;
-        data[i].activity_date = data[i].activity_date + hour;
-        data[i].hour = hours;
-        makeArray(datasetWithUpdatedDate, data[i]);
-        makeArray(mentionsPerHour, hours)
-      }
-    }
-
-    randomTimeGenerator();
   }
 
   function generateSentimentBarChart() {
@@ -485,21 +448,32 @@ var DashBoardManager = (function () {
       .text(function (d) {
         return d.name;
       });
-
   }
 
-  function incArray(array, index) {
-    array[index]++;
-  }
+  function processActorsMentions(data) {
 
-  function mapActorsData(data) {
-    // showPage();
-    var avgMentions;
+    var
+      facebook = 0,
+      instagram = 0,
+      tumblr = 0,
+      twitter = 0,
 
-    let dataset = data;
+      good = 0,
+      bad = 0,
+      neutral = 0,
+      avgMentions,
+      totalActivityShares = 0,
+      
+      /*DOM Elements*/
+      totalMentionsInPeriodDiv = document.getElementById('total_mentions_in_period'),
+      totalSharedMentionsDiv = document.getElementById('total_shared_mentions'),
+      totalDaysDiv = document.getElementById('total_days'),
+      avgMentionsPerDay = document.getElementById('avg_mentions_day'),
+      daysInPeriodDiv = document.getElementById('days_in_period');
 
-    for (let i = 0; i < dataset.length; i++) {
-      switch (dataset[i].provider) {
+    /*inc variables*/
+    for (let i = 0; i < data.length; i++) {
+      switch (data[i].provider) {
         case "twitter":
           twitter++;
           break;
@@ -512,45 +486,8 @@ var DashBoardManager = (function () {
         case "tumblr":
           tumblr++;
           break;
-        default:
-          break;
       }
-    }
-
-    /* getting total activity shares*/
-    for (let i = 0; i < dataset.length; i++) {
-      var datum = parseInt(dataset[i].activity_shares);
-      if ((datum) && (datum > 0)) totalActivityShares++;
-    }
-    /*getting mentions per day*/
-    for (let i = 0; i < dataset.length; i++) {
-      var date = dataset[i].activity_date;
-      if (totalDaysInDataset.indexOf(date) === -1) {
-        totalDaysInDataset.push(dataset[i].activity_date)
-      }
-    }
-    /*get mentions total by day*/
-    totalDaysInDataset = totalDaysInDataset.sort();
-    dayCounterArray = totalDaysInDataset.map(x => 0);
-    days = totalDaysInDataset.map(x => []);
-
-    function makeHourObjArray(array, index, actor) {
-      array[index].push(actor)
-    }
-
-    for (let i = 0; i < dataset.length; i++) {
-      let day = dataset[i].activity_date.toString();
-      let actor = dataset[i];
-      if ((day) && (totalDaysInDataset.indexOf(day) !== -1)) {
-        let dayToIncrement = parseInt(totalDaysInDataset.indexOf(day));
-        incArray(dayCounterArray, dayToIncrement);
-        makeHourObjArray(days, dayToIncrement, actor);
-      }
-    }
-
-    /*  mapping data for sentiment charts*/
-    for (let i = 0; i < dataset.length; i++) {
-      switch (dataset[i].activity_sentiment) {
+      switch (data[i].activity_sentiment) {
         case 0:
           neutral++;
           break;
@@ -560,15 +497,35 @@ var DashBoardManager = (function () {
         case -1:
           bad++;
           break;
-        default:
-          break;
+      }
+
+      /*make array of total days in dataset => totalDaysInDataset*/
+      var datumActivityShares = parseInt(data[i].activity_shares);
+      if ((datumActivityShares) && (datumActivityShares > 0)) totalActivityShares++;
+      var date = data[i].activity_date;
+      if (totalDaysInDataset.indexOf(date) === -1) {
+        totalDaysInDataset.push(date);
+      }
+    }
+    /*sort totalDaysInDataset Array*/
+    totalDaysInDataset = totalDaysInDataset.sort();
+
+    dayCounterArray = totalDaysInDataset.map(x => 0);
+    days = totalDaysInDataset.map(x => []);
+
+    /*counts and sorts mentions by day*/
+    for (let i = 0; i < data.length; i++) {
+      let day = data[i].activity_date.toString();
+      let actor = data[i];
+      if ((day) && (totalDaysInDataset.indexOf(day) !== -1)) {
+        let dayToIncrement = totalDaysInDataset.indexOf(day);
+        dayCounterArray[dayToIncrement]++;
+        days[dayToIncrement].push(actor);
       }
     }
 
+    /*generate arrays for bar charts and labels*/
     socialMediaStats = [facebook, instagram, tumblr, twitter];
-
-    socialMedia = [{name: 'FB: ' + facebook, number: facebook}, {name: 'IG:' + instagram, number: instagram}
-      , {name: 'TBLR:' + tumblr, number: tumblr}, {name: 'TWTR:' + twitter, number: twitter}];
 
     socialMediaProviderNames = [{name: ' facebook', number: facebook}, {name: 'instagram', number: instagram}
       , {name: 'tumblr', number: tumblr}, {name: 'twitter', number: twitter}];
@@ -576,70 +533,98 @@ var DashBoardManager = (function () {
     socialMediaSentiment = [{name: 'Positive: ' + good, number: good}, {name: 'Negative: ' + bad, number: bad}
       , {name: 'Neutral: ' + neutral, number: neutral}];
 
-    totalMentionsInPeriod.innerHTML = data.length.toString();
-    totalMentionsInPeriod.classList.add('mentions')
-    totalSharedMentions.innerHTML = totalActivityShares.toString();
-    totalSharedMentions.classList.add('mentions');
-    totalDays.innerHTML = totalDaysInDataset.length.toString();
-    totalDays.classList.add('mentions');
-
-    function addDaysInDataset() {
-      for (let i = 0; i < totalDaysInDataset.length; i++) {
-        let graph = document.createElement('div');
-        let headerContent = document.createTextNode(totalDaysInDataset[i] + `: ${dayCounterArray[i]}`);
-        graph.appendChild(headerContent);
-        divToInsertOn.appendChild(graph).className = "flex_row_center";
-      }
+    /* set html days_in_period div*/
+    for (let i = 0; i < totalDaysInDataset.length; i++) {
+      let graph = document.createElement('div');
+      let headerContent = document.createTextNode(totalDaysInDataset[i] + `: ${dayCounterArray[i]}`);
+      graph.appendChild(headerContent);
+      daysInPeriodDiv.appendChild(graph).className = "flex_row_center";
     }
 
-    addDaysInDataset();
+    /* set html for Sentiment Chart*/
+    totalMentionsInPeriodDiv.innerHTML = data.length.toString();
+    totalMentionsInPeriodDiv.classList.add('mentions')
+    totalSharedMentionsDiv.innerHTML = totalActivityShares.toString();
+    totalSharedMentionsDiv.classList.add('mentions');
+    totalDaysDiv.innerHTML = totalDaysInDataset.length.toString();
+    totalDaysDiv.classList.add('mentions');
     avgMentions = Math.round((data.length / totalDaysInDataset.length)).toString();
     avgMentionsPerDay.innerHTML = avgMentions;
     avgMentionsPerDay.classList.add('mentions');
-  }
 
-  function makeArray(array, d) {
-    array.push(d);
+    /*set html for sentiment percentage display*/
+    var total = good + bad + neutral,
+      positivePercentage,
+      negativePercentage,
+      neutralPercentage,
+      totalPercentage,
+
+      positiveSentimentPercentage = document.getElementById('positive_sentiment_percentage'),
+      negativeSentimentPercentage = document.getElementById('negative_sentiment_percentage'),
+      neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage');
+
+    positivePercentage = Math.round(100 * (good / total).toFixed(4));
+    negativePercentage = Math.round(100 * (bad / total).toFixed(4));
+    neutralPercentage = Math.round(100 * (neutral / total).toFixed(4));
+    totalPercentage = positivePercentage + negativePercentage + neutralPercentage;
+    if (totalPercentage !== 100) {
+      if (totalPercentage > 100) neutralPercentage--;
+      if (totalPercentage < 100) neutralPercentage++;
+    }
+    positiveSentimentPercentage.innerHTML = positivePercentage + "%";
+    negativeSentimentPercentage.innerHTML = negativePercentage + "%";
+    neutralSentimentPercentage.innerHTML = neutralPercentage + "%";
+
   }
 
   function setIndvidualActorModalContent(d) {
+    var
+      actorAvator = document.getElementById('actor_avator'),
+      actorName = document.getElementById('actor_name'),
+      actorActivityShares = document.getElementById('mention_modal_shares'),
+      actorUserName = document.getElementById('actor_username'),
+      actorDescription = document.getElementById('actor_description'),
+      replyUserName = document.getElementById('reply_username'),
+      actorUrl = document.getElementById('actor_url'),
+      activityMessage = document.getElementById('activity_message'),
+      activityDate = document.getElementById('activity_date'),
+      cancelReply = document.getElementById('cancel_reply'),
+      modalOverlay = document.getElementById('modal_overlay'),
+      modal = document.getElementById('modal'),
+      replyModalBody = document.getElementById('reply_modal'),
+      provider = document.getElementById('provider');
+
+    switch (d.provider) {
+      case "twitter":
+        provider.innerHTML = `<i class='fa fa-twitter-square twitter'></i> &nbsp; <i class='fa fa-reply change_cursor reply'></i> &nbsp;  <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class='fa fa-star change_cursor'></i> &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
+        break;
+      case "facebook":
+        provider.innerHTML = `<i class=  'fa fa-facebook-square facebook'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp; <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class='fa fa-star change_cursor'></i>&nbsp;  <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
+        break;
+      case "instagram":
+        provider.innerHTML = `<i class=  'fa fa-instagram instagram'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp;  <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class=  'fa fa-star change_cursor'></i>  &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
+        break;
+      case "tumblr":
+        provider.innerHTML = `<i class=  'fa fa-tumblr-square tumblr'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp; <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class=  'fa fa-star change_cursor'></i> &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
+        break;
+    }
+
     modalOverlay.onclick = function () {
       modal.classList.toggle('visible');
       replyModalBody.classList.add('hide_display');
       modalOverlay.classList.toggle('hide_display');
     };
-    reply.onclick = function openReplyModalFn() {
+    provider.onclick = function openReplyModalFn() {
       replyModalBody.classList.toggle('hide_display');
     };
     cancelReply.onclick = function () {
       replyModalBody.classList.add('hide_display')
     };
 
-    (function (d) {
-      switch (d.provider) {
-        case "twitter":
-          // provider.innerHTML = "<i class=" + "'fa fa-twitter-square twitter'></i> &nbsp; <i class=" + "'fa fa-reply change_cursor reply'></i> &nbsp;  <i class=" + "'fa fa-star change_cursor flex_row_end'></i>"  ;
-          provider.innerHTML = `<i class='fa fa-twitter-square twitter'></i> &nbsp; <i class='fa fa-reply change_cursor reply'></i> &nbsp;  <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class='fa fa-star change_cursor'></i> &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
-          break;
-        case "facebook":
-          provider.innerHTML = `<i class=  'fa fa-facebook-square facebook'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp; <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class='fa fa-star change_cursor'></i>&nbsp;  <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
-          break;
-        case "instagram":
-          provider.innerHTML = `<i class=  'fa fa-instagram instagram'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp;  <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class=  'fa fa-star change_cursor'></i>  &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
-          break;
-        case "tumblr":
-          provider.innerHTML = `<i class=  'fa fa-tumblr-square tumblr'></i> &nbsp; <i class=  'fa fa-reply change_cursor reply'></i> &nbsp; <i class="fa fa-retweet change_cursor" aria-hidden="true"></i> <div class="flex_row_end"></div><i class=  'fa fa-star change_cursor'></i> &nbsp; <i class="fa fa-flag change_cursor" aria-hidden="true"></i></div>`;
-          break;
-        default:
-          break;
-      }
-    })(d);
+    modal.classList.toggle('visible');
+    modalOverlay.classList.toggle('hide_display');
 
-    /*use promise to wait for the actor_avator pic to load before opening modal*/
-
-    // let p1 = new Promise(
-    //   function (resolve, reject) {
-    //     var avatar = document.getElementById('actor_avator');
+    /*set HTML for actor modal*/
     var start;
     if (d.activity_date.length === 18) start = d.activity_date.length - 8;
     else if (d.activity_date.length === 17) start = d.activity_date.length - 7;
@@ -655,94 +640,36 @@ var DashBoardManager = (function () {
     activityDate.innerHTML = d.activity_date.split('').slice(0, start).join('');
     actorActivityShares.innerHTML = d.activity_shares;
     provider.className = "flex_row_start";
-    // avatar.onload = function () {
-    //   resolve();
-    // }});
-    // p1.then(function () {
-    toggleModalFn();
-    // })
+
   }
 
   function showPage() {
+    var
+      pageContent = document.getElementById("page_content"),
+      loaded = document.getElementById("loaded"),
+      spin = document.getElementById("spin"),
+      loading = document.getElementById("loading");
+
     spin.style.display = "none";
     loading.style.display = "none";
     loaded.style.display = "none";
     pageContent.style.display = "block";
   }
 
-  function toggleModalFn() {
-    modalContent.classList.toggle('visible');
-    modalOverlay.classList.toggle('hide_display');
-  }
-
   var
-    socialMedia,
-    socialMediaProviderNames,
-    socialMediaStats = 0,
-    socialMediaSentiment,
-    totalActivityShares = 0,
     dayCounterArray,
-    datasetWithUpdatedDate = [],
     days = [],
     totalDaysInDataset = [],
-    mentionsPerHour = [],
-    facebook = 0,
-    instagram = 0,
-    tumblr = 0,
-    twitter = 0,
-    good = 0,
-    bad = 0,
-    neutral = 0,
-    hourCounter = [],
-    mentionCounter,
-    hourMentionCombined = [],
-
-  // modal DOM refs
-    modalOverlay = document.getElementById('modal_overlay'),
-    modal = document.getElementById('modal'),
-    modalContent = document.getElementById('modal'),
-    replyModalBody = document.getElementById('reply_modal'),
-    reply = document.getElementById('provider'),
-    cancelReply = document.getElementById('cancel_reply'),
-    actorAvator = document.getElementById('actor_avator'),
-    actorName = document.getElementById('actor_name'),
-    actorActivityShares = document.getElementById('mention_modal_shares'),
-    actorUserName = document.getElementById('actor_username'),
-    actorDescription = document.getElementById('actor_description'),
-    replyUserName = document.getElementById('reply_username'),
-    actorUrl = document.getElementById('actor_url'),
-    activityMessage = document.getElementById('activity_message'),
-    activityDate = document.getElementById('activity_date'),
-    provider = document.getElementById('provider'),
-
-  //DOM refs
-    totalMentionsInPeriod = document.getElementById('total_mentions_in_period'),
-    totalSharedMentions = document.getElementById('total_shared_mentions'),
-    totalDays = document.getElementById('total_days'),
-    avgMentionsPerDay = document.getElementById('avg_mentions_day'),
-    divToInsertOn = document.getElementById('days_in_period'),
-    positiveSentimentPercentage = document.getElementById('positive_sentiment_percentage'),
-    negativeSentimentPercentage = document.getElementById('negative_sentiment_percentage'),
-    neutralSentimentPercentage = document.getElementById('neutral_sentiment_percentage'),
-    actorGraph = document.getElementById('actor_graph'),
-    actorGraphHeader = document.getElementById("actor_graph_header"),
-    dateSelect = document.getElementById('date_select'),
-    viewMentions = document.getElementById('view_mentions'),
-    tabcontent = document.getElementsByClassName("tabcontent"),
-    pageContent = document.getElementById("page_content"),
-    loaded = document.getElementById("loaded"),
-    spin = document.getElementById("spin"),
-    loading = document.getElementById("loading"),
+    socialMediaStats = 0,
+    socialMediaProviderNames,
+    socialMediaSentiment,
 
     publicApi = {
-      generateProviderStats: generateProviderStats,
-      generateRandomHourForMention: generateRandomHourForMention,
-      generateHourMentionArray: generateHourMentionArray,
       generateProviderBarChart: generateProviderBarChart,
       generateSentimentBarChart: generateSentimentBarChart,
       generateHourlyMentionsLineGraph: generateHourlyMentionsLineGraph,
       generateIndividualActorGraph: generateIndividualActorGraph,
-      mapActorsData: mapActorsData,
+      processActorsMentions: processActorsMentions,
       showPage: showPage,
     };
 
@@ -753,15 +680,12 @@ var DashBoardManager = (function () {
 fetch('https://nuvi-challenge.herokuapp.com/activities')
   .then(function (response) {
     return response.json()
-  }).then(function (actorsData) {
+  }).then(function (actorsMentions) {
   DashBoardManager.showPage();
-  DashBoardManager.mapActorsData(actorsData);
-  DashBoardManager.generateProviderStats();
-  DashBoardManager.generateRandomHourForMention(actorsData);
-  DashBoardManager.generateHourMentionArray();
+  DashBoardManager.processActorsMentions(actorsMentions);
   DashBoardManager.generateProviderBarChart();
   DashBoardManager.generateSentimentBarChart();
-  DashBoardManager.generateHourlyMentionsLineGraph();
+  DashBoardManager.generateHourlyMentionsLineGraph(actorsMentions);
   DashBoardManager.generateIndividualActorGraph();
 });
 

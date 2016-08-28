@@ -15,7 +15,7 @@ module.exports = {
     node: {
         fs: "empty"
     },
-    
+
     module: {
         loaders: [
             { test: /\.js$/, loaders: ['babel'], include: path.join(__dirname, 'src') },
@@ -27,7 +27,7 @@ module.exports = {
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoErrorsPlugin()
     ]
-    
+
 };
 
 

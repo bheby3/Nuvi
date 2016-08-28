@@ -1,12 +1,19 @@
 @import 'colors';
 
-body {
+html body {
   margin: 0;
   padding: 0;
   background-color: #1B1B1B;
 }
 
 /* ui header */
+
+@media (max-width: 900px) {
+  #ui_header {
+    width: 100vw;
+  }
+}
+
 #ui_header {
   position: relative;
   margin-bottom: 0;
@@ -28,6 +35,14 @@ body {
 }
 
 /* top section*/
+@media (max-width: 900px) {
+  #top_section_wrapper {
+
+  }
+  #mentions_per_sentiment_graph {
+    display: none;
+  }
+}
 #top_section_wrapper {
   width: 100%;
   display: flex;
@@ -68,7 +83,7 @@ body {
       padding: 1em 10% 1em 10%;
     }
   }
-  #mentions_timeline_graph {
+  #mentions_per_sentiment_graph {
     box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
     width: 860px;
     height: 230px;
@@ -98,6 +113,25 @@ body {
   }
 }
 
+
+@media (max-width: 900px) {
+  body {
+    //width: 500px;
+    //width: 100vw;
+  }
+  #middle_section_wrapper {
+    display: block;
+  }
+  #mentions_per_provider_wrapper {
+    display: inline-block;
+  }
+  #sentiment_wrapper {
+
+  }
+  #sentiment_timeline_graph {
+
+  }
+}
 /* middle section */
 #middle_section_wrapper {
   display: flex;
@@ -130,9 +164,9 @@ body {
         padding-left: 1em;
       }
     }
-    #mentions_in_period {}
+    #mentions_in_period {  }
     #shared_mentions {  }
-    #mentions_day {}
+    #mentions_day {  }
     #mentions_per_provider_graph {
       padding-top: .5em;
     }
@@ -185,6 +219,7 @@ body {
       border-top: 1px solid #2F2F2F;
       display: flex;
       height: 3em;
+      width: 100%;
       background-color: #313131;
       align-items: center;
       justify-content: flex-start;
@@ -195,9 +230,8 @@ body {
         padding-left: 1em;
       }
     }
-
     #body_sentiment_wrapper {
-      width: 435px;
+      width: 100%;
       display: flex;
       height: 170px;
       border-top: 1px solid #2F2F2F;
@@ -317,6 +351,11 @@ body {
 }
 
 /*bottom section*/
+@media (max-width: 900px) {
+  #bottom_section_wrapper {
+    display: none;
+  }
+}
 #bottom_section_wrapper {
   position: relative;
   width: 100%;
@@ -447,6 +486,7 @@ body {
 #page_content {
   display: none;
 }
+
 /*Actor Display Modal*/
 #modal_overlay {
   position: absolute;
@@ -463,7 +503,6 @@ body {
   //width: 405px;
   width: 500px;
   z-index: 9999;
-
   .modal_actor_container {
     background-color: #242627;
     border-radius: 7px;
@@ -471,7 +510,6 @@ body {
     width: auto;
     height: auto;
     box-shadow: 0 0 15px 5px rgba(0, 0, 0, 1);
-
     #modal_header {
       border-radius: 7px 7px 0 0;
       box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
@@ -481,15 +519,15 @@ body {
       border-bottom: 1px solid #2E3031;
       margin: 0;
       padding-bottom: 5px;
-#actor_avatar {
-  width: 3em;
-  height: 3em;
-  margin: 0 10px 0 5px;
-  #actor_avator {
-    width: 3em;
-    height: 3em;
-  }
-}
+      #actor_avatar {
+        width: 3em;
+        height: 3em;
+        margin: 0 10px 0 5px;
+        #actor_avator {
+          width: 3em;
+          height: 3em;
+        }
+      }
       div {
         #actor_name {
           color: white;
@@ -524,23 +562,20 @@ body {
         }
         #mention_modal_shares_wrapper {
           display: flex;
-
           justify-content: center;
           border-left: 1px solid #313131;
           width: auto;
           padding: 0 .5em 0 .5em;
           #mention_modal_shares {
-            //height: 2em;
           }
         }
       }
     }
-
     #modal_body {
       background-color: #242625;
       border-top: 1px solid #2E3031;
       border-bottom: 2px solid #2E3031;
-      box-shadow: inset 0px 0px 10px rgba(44, 46, 45, 1);
+      box-shadow: inset 0 0 10px rgba(44, 46, 45, 1);
       padding: 0 1em 1em 1em;
       //box-shadow: 0 7px 5px -1px rgba(0, 0, 0, 1);
       color: #9596A1;
@@ -603,7 +638,6 @@ body {
         text-decoration: none;
       }
     }
-
     #modal_footer {
       border-radius: 0 0 7px 7px;
       border-top: 1px solid #343635;
@@ -615,7 +649,6 @@ body {
         padding: 5px;
       }
     }
-
   }
 }
 

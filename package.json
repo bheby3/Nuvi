@@ -11,6 +11,8 @@
   "dependencies": {
     "css-loader": "^0.15.6",
     "extract-text-webpack-plugin": "^0.8.2",
+    "font-awesome": "^4.6.3",
+    "font-awesome-sass-loader": "^1.0.2",
     "node-sass": "^3.2.0",
     "request": "^2.74.0",
     "sass-loader": "^1.0.3",
