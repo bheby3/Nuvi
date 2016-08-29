@@ -14,15 +14,17 @@
 </section>
 
 <div id="page_content">
-    <div id="modal_overlay" class="hide_display"></div>
+    <div><div id="modal_overlay" class="hide_display"></div></div>
 
-    <section id="ui_header" class="flex_row_start align_items_center">
-        <div id="header"><span id="title"></span></div>
-    </section>
+    <div id="header">
+        <section id="ui_header" class="flex_row_start align_items_center">
+            <div><span id="title"></span></div>
+        </section>
+    </div>
 
     <section id="top_section_wrapper">
 
-        <section id="mentions_wrapper">
+        <div> <section id="mentions_wrapper">
             <div id="mentions_header">
                 <div class="flex_row_start align_items_center">
                     <div id="total_mentions_in_period"></div>
@@ -32,6 +34,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="mentions_body_wrapper">
                 <div class="flex_row_center align_items_center">
                     <div class="flex_row_start">
@@ -65,7 +68,7 @@
                     <div id="days_in_period"></div>
                 </div>
             </div>
-        </section>
+        </section></div>
 
         <section id="mentions_per_sentiment_graph" class="flex_column_start ">
             <div id="mentions_timeline_header"><span>Mentions Timeline</span></div>
@@ -75,14 +78,15 @@
     </section>
 
     <section id="middle_section_wrapper">
-        <section id="mentions_per_provider_wrapper">
-            <div id="mentions_per_provider_header">
-                <span>Mentions / Provider</span>
-            </div>
-            <div id="mentions_per_provider_graph"></div>
-        </section>
 
-        <section id="sentiment_wrapper">
+        <div><section id="mentions_per_provider_wrapper">
+                <div id="mentions_per_provider_header">
+                    <span>Mentions / Provider</span>
+                </div>
+                <div id="mentions_per_provider_graph"></div>
+            </section></div>
+
+        <div> <section id="sentiment_wrapper">
             <div id="sentiment_header">
                 <span>Sentiment</span>
             </div>
@@ -103,14 +107,15 @@
                     <span id="neutral_sentiment">Neutral</span>
                 </div>
             </div>
-        </section>
+        </section></div>
 
-        <section id="sentiment_timeline_graph">
+        <div><section id="sentiment_timeline_graph">
             <div id="sentiment_timeline_header">
                 <span>Mentions / Sentiment</span>
             </div>
             <div id="sentiment_timeline_body"></div>
-        </section>
+        </section></div>
+
     </section>
 
     <section id="bottom_section_wrapper">
@@ -136,7 +141,7 @@
 
     </section>
 
-    <section id="modal" class="flex_column_end visible">
+    <div><section id="modal" class="flex_column_end visible">
         <div class="modal_actor_container">
             <div id="modal_header">
 
@@ -151,7 +156,8 @@
                 <div id="like_dislike_shares" class="flex_row_end">
 
                     <div id="mention_modal_like" class="flex_column_center">
-                        <div class="flex_column_center"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                        <div class="flex_column_center"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        </div>
                     </div>
 
                     <div id="mention_modal_dislike" class="flex_column_center">
@@ -203,8 +209,11 @@
             </section>
 
         </div>
-    </section>
+    </section></div>
+
 </div>
+
+
 <script src="https://use.fontawesome.com/545d4e3d6b.js"></script>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="static/public/build/bundle.js"></script>

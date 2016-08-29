@@ -270,7 +270,7 @@ var DashBoardManager = (function () {
     }
   }
 
-  function generateHourlyMentionsLineGraph(data) {
+  function generateHourlyMentionsLineGraph(data, widthOutput) {
 
     var hourCounter = [],
       mentionCounter,
@@ -320,9 +320,25 @@ var DashBoardManager = (function () {
 
     data = hourMentionCombined;
 
+
+    /*window.onresize = resizeGraph();
+    function resizeGraph() {
+      var widthOutput = document.getElementById('mentions_per_sentiment_graph').offsetWidth;
+      if (window.innerWidth < 800 && widthOutput !== 600) {
+        generateHourlyMentionsLineGraph(actorsMentions, 600);
+        // widthOutput = 600;
+      }
+
+      else if (window.innerWidth > 850 && widthOutput === 600) {
+        generateHourlyMentionsLineGraph(actorsMentions, 850);
+        // widthOutput = 800;
+      }
+    }*/
+
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
       // var margin = {top: 0, right: 0, bottom: 0, left: 0},
-      width = 850 - margin.left - margin.right,
+      // width = 850 - margin.left - margin.right,
+      width = widthOutput - margin.left - margin.right,
       height = 170 - margin.top - margin.bottom;
 
     var parseDate = d3.time.format("%Y-%m-%d-%H").parse;
@@ -657,6 +673,7 @@ var DashBoardManager = (function () {
     pageContent.style.display = "block";
   }
 
+
   var
     dayCounterArray,
     days = [],
@@ -686,8 +703,9 @@ fetch('https://nuvi-challenge.herokuapp.com/activities')
   DashBoardManager.processActorsMentions(actorsMentions);
   DashBoardManager.generateProviderBarChart();
   DashBoardManager.generateSentimentBarChart();
-  DashBoardManager.generateHourlyMentionsLineGraph(actorsMentions);
+  DashBoardManager.generateHourlyMentionsLineGraph(actorsMentions, 850);
   DashBoardManager.generateIndividualActorGraph();
+
 });
 
 
