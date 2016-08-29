@@ -9,7 +9,7 @@ new WebpackDevServer(webpack(config), {
   hot: true,
   historyApiFallback: true
 // }).listen(1337, 'localhost', function (err, result) {
-}).listen(1337, '138.68.19.136', function (err, result) {
+}).listen(1337, '138.68.61.64', function (err, result) {
   if (err) {
     console.log(err);
   }
