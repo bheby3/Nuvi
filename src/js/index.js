@@ -321,6 +321,7 @@ var DashBoardManager = (function () {
     data = hourMentionCombined;
 
     var margin = {top: 13, right: 10, bottom: 25, left: 30},
+      // var margin = {top: 0, right: 0, bottom: 0, left: 0},
       width = 850 - margin.left - margin.right,
       height = 170 - margin.top - margin.bottom;
 
